@@ -1,10 +1,10 @@
 <template>
   <div class="card">
-    <filter-student
-      :hasFinancialStatus="true"
+    <filter-account
       :hasQualification="true"
       :hasSchool="true"
       :hasStatus="true"
+      :hasCalender="true"
       :pageType="pageType"
       :defaultStatus="status"
       class="mt-2 mb-2 ml-2 mr-2"
@@ -15,74 +15,57 @@
       >
         <thead>
           <tr>
-            <th>Avatar</th>
-            <th>Name</th>
-            <th>Student ID</th>
-            <th>Registration ID</th>
+            <th>Description</th>
             <th>School</th>
             <th>Qualification</th>
-            <th>Financial Status</th>
-            <th>Admission Status</th>
+            <th>Academic Session</th>
+            <th>Academic Semester</th>
+            <th>Academic Calender</th>
+            <th>Total Income</th>
+            <th>Date Created</th>
             <th>Status</th>
             <th>Action</th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="student in students" :key="student.id">
-            <td class="w60" v-if="student.profile.avatar">
-              <img
-                class="avatar"
-                :src="student.profile.avatar"
-                :alt="student.first_name"
-              />
-            </td>
-            <td class="w60" v-else>
-              <div
-                class="avatar avatar-pink"
-                data-toggle="tooltip"
-                data-placement="top"
-                title=""
-                data-original-title="Avatar Name"
-              >
-                <span>{{ student.avatar_alternative }}</span>
-              </div>
+          <tr v-for="account in accounts" :key="account.id">
+            <td>
+              <div class="font-15">{{ account.title }}</div>
             </td>
             <td>
-              <div class="font-15">{{ student.name }}</div>
+              {{ account.school.name }}
             </td>
             <td>
-              {{ student.student_id }}
+              <strong>{{ account.qualification.name }}</strong>
             </td>
             <td>
-              <strong>{{ student.student_id }}</strong>
+              <strong>{{ account.calender.session.name }}</strong>
             </td>
             <td>
-              <strong>{{ student.profile.school.name }}</strong>
+              <strong>{{ account.calender.semester.name }}</strong>
             </td>
             <td>
-              <strong>{{ student.profile.qualification.name }}</strong>
+              <strong>{{ account.calender.name }}</strong>
+            </td>
+            <td>
+              <strong>{{ account.amount_word }}</strong>
+            </td>
+            <td>
+              <strong>{{ account.date }}</strong>
             </td>
             <td>
               <span
                 class="tag tag-success"
-                v-if="student.financial_status === 'Cleared'"
-                >{{ student.financial_status }}</span
+                v-if="account.status === 'Active'"
+                >{{ account.status }}</span
               >
-              <span class="tag tag-danger" v-else>{{
-                student.financial_status
-              }}</span>
-            </td>
-            <td>
-              <strong>{{ student.admission_status }}</strong>
-            </td>
-            <td>
-              <span class="tag tag-success">{{ student.status_word }}</span>
+              <span class="tag tag-danger" v-else>{{ account.status }}</span>
             </td>
             <td>
               <button
                 type="button"
                 class="btn btn-icon btn-sm"
-                @click="openShow(student)"
+                @click="openShow(account)"
                 title="View"
                 v-if="show"
               >
@@ -91,26 +74,27 @@
               <button
                 type="button"
                 class="btn btn-icon btn-sm"
-                @click="openEdit()"
+                @click="openEdit(account)"
                 title="Edit"
                 v-if="edit"
               >
                 <i class="fa fa-edit"></i>
               </button>
-              <create-sage
-                v-if="pageType === 'admitted_students'"
-                :want_block="true"
-                :data="student"
-                :url="`/accounts/students/${student.id}/create-sage`"
-                :storeItem="`app/UPDATE_DATA`"
-              />
-              <delete-sage
-                v-if="pageType === 'admitted_students'"
-                :want_block="true"
-                :data="student"
-                :url="`/accounts/students/${student.id}/delete-sage`"
-                :storeItem="`app/UPDATE_DATA`"
-              />
+              <button
+                type="button"
+                class="btn btn-icon btn-sm"
+                @click="openClone(account)"
+                title="Clone"
+                v-if="edit"
+              >
+                <i class="fa fa-sync text-success"></i>
+              </button>
+              <!-- <delete-item
+            :want_block="true"
+            :data="staff"
+            :url="`/administrators/${student.id}`"
+            :storeItem="`app/REMOVE_DATA`"
+          /> -->
             </td>
           </tr>
         </tbody>
@@ -118,11 +102,11 @@
       <hr />
       <paginate
         :pagination="records"
-        @paginate="students"
+        @paginate="accounts"
         :offset="4"
         :emitTo="emitTo"
         class="mb-1 ml-2"
-        v-if="students.length"
+        v-if="accounts.length"
       />
     </div>
     <loader v-else />
@@ -132,9 +116,7 @@
 import { mapGetters, mapActions } from "vuex";
 import Loader from "../Loader.vue";
 import DeleteItem from "@/components/Delete";
-import FilterStudent from "../FilterStudent.vue";
-import CreateSage from "@/components/CreateSage";
-import DeleteSage from "@/components/DeleteSage";
+import FilterAccount from "@/components/Account/FilterAccount";
 import Paginate from "../Paginate.vue";
 export default {
   props: {
@@ -168,30 +150,38 @@ export default {
   components: {
     Loader,
     DeleteItem,
-    FilterStudent,
+    FilterAccount,
     Paginate,
-    CreateSage,
-    DeleteSage
   },
   computed: {
     ...mapGetters({
-      students: "app/pageData",
+      accounts: "app/pageData",
       type: "app/pageType",
-      student_data: "app/pageViewData",
-      student_show_data: "app/pageShowData",
+      account_data: "app/pageViewData",
+      account_show_data: "app/pageShowData",
+      clone_account: "app/pageCloneData"
     }),
   },
   watch: {
-    student_data: {
+    account_data: {
       handler(newVal, oldVal) {
         if (newVal && oldVal && newVal.timestamp !== oldVal.timestamp) {
-          this.$root.$emit("edit-student");
+          this.$root.$emit("edit-account");
         }
       },
       immediate: true,
       deep: true,
     },
-    student_show_data: {
+    clone_account: {
+      handler(newVal, oldVal) {
+        if (newVal && oldVal && newVal.timestamp !== oldVal.timestamp) {
+          this.$root.$emit("clone-account");
+        }
+      },
+      immediate: true,
+      deep: true,
+    },
+    account_show_data: {
       handler(newVal, oldVal) {
         if (newVal && oldVal && newVal.timestamp !== oldVal.timestamp) {
           this.$root.$emit(`${this.emitDetailsTo}`);
@@ -208,19 +198,19 @@ export default {
         self.records.current_page = filter.current_page;
         self.$store.commit("app/SET_DATA", null);
         self.$store.commit("app/SET_TYPE", null);
-        self.getStudents();
+        self.getAccounts();
       }
     });
     this.$root.$on("update_pagination", function(filter) {
       self.records = filter;
     });
-    this.getStudents();
+    this.getAccounts();
   },
   methods: {
-    getStudents() {
+    getAccounts() {
       this.$axios
-        .get(`/students?page=${this.records.current_page}`, {
-          params: { admission_status: this.status },
+        .get(`/accounts/expenses?page=${this.records.current_page}`, {
+          params: { status : this.status },
         })
         .then((res) => {
           this.$store.commit("app/SET_DATA", res.data.data);
@@ -247,6 +237,11 @@ export default {
       const time = new Date();
       const update = { ...data, timestamp: time.getTime() };
       this.$store.commit("app/SET_SHOW_DATA", update);
+    },
+    openClone(data) {
+      const time = new Date();
+      const update = { ...data, timestamp: time.getTime() };
+      this.$store.commit("app/SET_CLONE_DATA", update);
     },
   },
 };

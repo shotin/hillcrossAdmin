@@ -4,13 +4,13 @@
       <div class="container-fluid">
         <div class="d-flex justify-content-between align-items-center ">
           <div class="header-action">
-            <h1 class="page-title">Admitted Students</h1>
+            <h1 class="page-title">All Students</h1>
             <ol class="breadcrumb page-breadcrumb">
               <li class="breadcrumb-item">
                 <nuxt-link to="/">Dashboard</nuxt-link>
               </li>
               <li class="breadcrumb-item active" aria-current="page">
-                Admitted Students
+                All Students
               </li>
             </ol>
           </div>
@@ -32,7 +32,7 @@
                 data-toggle="tab"
                 @click.prevent="switchTab('add')"
                 href="#pro-add"
-                >Manage</a
+                >Academic Records</a
               >
             </li>
           </ul>
@@ -45,12 +45,12 @@
           <div class="tab-pane" :class="[list ? 'active' : '']" id="pro-all">
             <list-all-student
               v-if="list"
-              :status="`Admitted`"
-              :pageType="`admitted_students`"
-              :emitTo="`admitted_students`"
-              :emitDetailsTo="`admitted_student_details`"
+              :status="`All`"
+              :pageType="`academic_records`"
+              :emitTo="`academic_records`"
+              :emitDetailsTo="`academic_record_details`"
               :show="true"
-              :edit="true"
+              :edit="false"
             />
           </div>
           <div
@@ -60,7 +60,7 @@
             id="pro-add"
           >
             <div class="card">
-              <div class="table-responsive"></div>
+              <academic-records v-if="add"/>
             </div>
           </div>
         </div>
@@ -70,10 +70,11 @@
 </template>
 <script>
 import { mapGetters } from "vuex";
+import AcademicRecords from "../../components/Student/AcademicRecords.vue";
 import ListAllStudent from "../../components/Student/ListAllStudent.vue";
 
 export default {
-  components: { ListAllStudent },
+  components: { ListAllStudent, AcademicRecords },
   computed: {
     ...mapGetters({
       select: "select/select",
@@ -81,7 +82,7 @@ export default {
   },
   mounted() {
     let self = this;
-    self.$root.$on("admitted_student_details", function(val) {
+    self.$root.$on("academic_record_details", function(val) {
       self.switchTab("add");
     });
   },

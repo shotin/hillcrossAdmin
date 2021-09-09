@@ -5,7 +5,7 @@
         <input
           type="text"
           class="form-control"
-          placeholder="search student"
+          placeholder="search income"
           v-model="form.search"
         />
       </div>
@@ -44,19 +44,21 @@
         </multiselect>
       </div>
     </div>
-    <div class="col-lg-4 col-md-4 col-sm-6" v-if="hasFinancialStatus">
+    <div class="col-lg-4 col-md-4 col-sm-6 mb-2" v-if="hasCalender">
       <div class="input-group">
-        <select
-          name=""
-          id=""
-          v-model="form.financial_status"
-          class="form-control"
+        <multiselect
+          v-model="form.academic_calender"
+          :options="select.active_calenders"
+          track-by="id"
+          label="name"
+          required
+          :multiple="false"
+          :searchable="true"
+          :close-on-select="true"
+          :show-labels="false"
+          placeholder="Select Calender"
         >
-        <option value="" disabled>Select Financial Status</option>
-          <option value="all">All</option>
-          <option value="Cleared">Cleared</option>
-          <option value="Disabled">Disabled</option>
-        </select>
+        </multiselect>
       </div>
     </div>
     <div class="col-lg-4 col-md-4 col-sm-6" v-if="hasStatus">
@@ -64,8 +66,8 @@
         <select name="" id="" v-model="form.status" class="form-control">
           <option value="" disabled>Select Status</option>
           <option value="all">All</option>
-          <option value="active">Active</option>
-          <option value="pending">Pending</option>
+          <option value="Active">Active</option>
+          <option value="Locked">Locked</option>
         </select>
       </div>
     </div>
@@ -95,7 +97,7 @@ export default {
       type: Boolean,
       default: false,
     },
-    hasFinancialStatus: {
+    hasCalender: {
       type: Boolean,
       default: false,
     },
@@ -109,8 +111,8 @@ export default {
     },
     defaultStatus: {
       type: String,
-      default: 'All'
-    }
+      default: "All",
+    },
   },
   computed: {
     ...mapGetters({
@@ -144,17 +146,13 @@ export default {
         search: "",
         school: "",
         qualification: "",
-        financial_status: "",
         status: "",
-        admission_status: this.defaultStatus
+        academic_calender: "",
       };
     },
     runFilter() {
       this.$store.commit("app/SET_DATA", null);
       this.$store.commit("app/SET_TYPE", "");
-      if (!this.form.financial_status) {
-        delete this.form.financial_status;
-      }
       if (!this.form.status) {
         delete this.form.status;
       }
@@ -180,7 +178,7 @@ export default {
         .then((res) => {
           this.$store.commit("app/SET_DATA", res.data.data);
           this.$store.commit("app/SET_TYPE", this.pageType);
-          this.$root.$emit('update_pagination', res.data.meta)
+          this.$root.$emit("update_pagination", res.data.meta);
           this.records = res.data.meta;
         })
         .catch((err) => {});

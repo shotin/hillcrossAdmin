@@ -4,13 +4,13 @@
       <div class="container-fluid">
         <div class="d-flex justify-content-between align-items-center ">
           <div class="header-action">
-            <h1 class="page-title">Admitted Students</h1>
+            <h1 class="page-title">Marketing - Database</h1>
             <ol class="breadcrumb page-breadcrumb">
               <li class="breadcrumb-item">
                 <nuxt-link to="/">Dashboard</nuxt-link>
               </li>
               <li class="breadcrumb-item active" aria-current="page">
-                Admitted Students
+                Marketing - Database
               </li>
             </ol>
           </div>
@@ -25,14 +25,14 @@
                 >List View</a
               >
             </li>
-            <li class="nav-item" v-if="add">
+            <li class="nav-item">
               <a
                 class="nav-link"
                 :class="[add ? 'active' : '']"
                 data-toggle="tab"
                 @click.prevent="switchTab('add')"
                 href="#pro-add"
-                >Manage</a
+                >{{ addText }}</a
               >
             </li>
           </ul>
@@ -43,25 +43,10 @@
       <div class="container-fluid">
         <div class="tab-content">
           <div class="tab-pane" :class="[list ? 'active' : '']" id="pro-all">
-            <list-all-student
-              v-if="list"
-              :status="`Admitted`"
-              :pageType="`admitted_students`"
-              :emitTo="`admitted_students`"
-              :emitDetailsTo="`admitted_student_details`"
-              :show="true"
-              :edit="true"
-            />
+            <list-database v-if="list" />
           </div>
-          <div
-            class="tab-pane"
-            v-if="add"
-            :class="[add ? 'active' : '']"
-            id="pro-add"
-          >
-            <div class="card">
-              <div class="table-responsive"></div>
-            </div>
+          <div class="tab-pane" :class="[add ? 'active' : '']" id="pro-add">
+            <manage-database v-if="add" />
           </div>
         </div>
       </div>
@@ -70,27 +55,24 @@
 </template>
 <script>
 import { mapGetters } from "vuex";
-import ListAllStudent from "../../components/Student/ListAllStudent.vue";
+import ListDatabase from "../../components/Marketing/ListDatabase.vue";
+import ManageDatabase from "../../components/Marketing/ManageDatabase.vue";
 
 export default {
-  components: { ListAllStudent },
-  computed: {
-    ...mapGetters({
-      select: "select/select",
-    }),
-  },
+  components: { ListDatabase, ManageDatabase },
   mounted() {
     let self = this;
-    self.$root.$on("admitted_student_details", function(val) {
-      self.switchTab("add");
+    self.$root.$on("edit-database", function(val) {
+      self.add = true;
+      (self.list = false), (self.addText = "Edit");
     });
   },
   data() {
     return {
       add: false,
       list: true,
-      addText: "Manage",
-      roles: [],
+      addText: "Add",
+      permissions: [],
     };
   },
   methods: {

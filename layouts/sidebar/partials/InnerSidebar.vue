@@ -107,7 +107,7 @@
             </li>
             <li>
               <a class="nav-link">
-                <i class="fa fa-book"></i><span>Student Mgt</span>
+                <i class="fa fa-user-graduate"></i><span>Student Mgt</span>
                 <i class="fa fa-angle-down custom-caret"></i>
               </a>
               <ul class="submenu collapse">
@@ -117,9 +117,9 @@
                   </nuxt-link>
                 </li>
                 <li>
-                  <a class="nav-link" href="#"
+                  <nuxt-link class="nav-link" to="/students/academic-records"
                     ><i class="fa fa-book"></i>Academic Record
-                  </a>
+                  </nuxt-link>
                 </li>
                 <li>
                   <a class="nav-link" href="#"
@@ -155,42 +155,66 @@
             </li>
             <li>
               <a class="nav-link">
-                <i class="fa fa-book"></i><span>Accounts & Finance</span>
+                <i class="fa fa-money-bill"></i
+                ><span
+                  >Accounts & Finance
+                  <i class="fa fa-angle-down custom-caret"></i
+                ></span>
               </a>
               <ul class="submenu collapse">
                 <li>
                   <nuxt-link class="nav-link" to="/staff/academic"
-                    >Invoicing
+                    ><i class="fa fa-file-invoice"></i>Invoicing
                   </nuxt-link>
                 </li>
                 <li>
                   <a class="nav-link">
-                    <span>Students Accounts</span>
+                    <span
+                      ><i class="fa fa-user-circle"></i>Students Accounts<i
+                        class="fa fa-angle-down custom-caret"
+                      ></i
+                    ></span>
                   </a>
                   <ul class="submenu collapse">
                     <li>
                       <nuxt-link class="nav-link" to="/staff/academic"
-                        >Fees
+                        ><i class="fa fa-money-check-alt"></i>Fees Layout
                       </nuxt-link>
                     </li>
-                    <li><a class="nav-link" href="#">Accommodation </a></li>
+                    <!-- <li>
+                      <nuxt-link class="nav-link" to="/staff/academic"
+                        ><i class="fa fa-house-user"></i>Accomodation
+                      </nuxt-link>
+                    </li> -->
                   </ul>
                 </li>
-                <li><a class="nav-link" href="#">Income </a></li>
-                <li><a class="nav-link" href="#">Expense </a></li>
+                <li>
+                  <nuxt-link class="nav-link" to="/accounts/income"
+                    ><i class="fa fa-hand-holding-usd"></i>Income
+                  </nuxt-link>
+                </li>
+                <li>
+                  <nuxt-link class="nav-link" to="/staff/academic"
+                    ><i class="fa fa-credit-card"></i>Quotes
+                  </nuxt-link>
+                </li>
               </ul>
             </li>
             <li>
               <a class="nav-link">
-                <i class="fa fa-book"></i><span>Marketing</span>
+                <i class="fa fa-bullhorn"></i><span>Marketing</span>
               </a>
               <ul class="submenu collapse">
-                <li>
+                <!-- <li>
                   <nuxt-link class="nav-link" to="/staff/academic"
                     >Reports
                   </nuxt-link>
+                </li> -->
+                <li>
+                  <nuxt-link class="nav-link" to="/marketing/databases"
+                    ><i class="fa fa-database"></i>Database
+                  </nuxt-link>
                 </li>
-                <li><a class="nav-link" href="#">Database </a></li>
               </ul>
             </li>
 
@@ -303,5 +327,8 @@ export default {
 }
 .custom-caret {
   padding-left: 10px;
+}
+.metismenu ul ul a {
+  padding: 2px 3px 4px 40px;
 }
 </style>

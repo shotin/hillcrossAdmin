@@ -48,6 +48,9 @@
               :status="`Dropped Out`"
               :pageType="`dropped_out_students`"
               :emitTo="`dropped_out_students`"
+              :emitDetailsTo="`dropped_out_student_details`"
+              :show="true"
+              :edit="true"
             />
           </div>
           <div
@@ -78,7 +81,7 @@ export default {
   },
   mounted() {
     let self = this;
-    self.$root.$on("student-details", function(val) {
+    self.$root.$on("dropped_out_student_details", function(val) {
       self.switchTab("add");
     });
   },

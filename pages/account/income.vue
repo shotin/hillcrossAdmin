@@ -4,13 +4,13 @@
       <div class="container-fluid">
         <div class="d-flex justify-content-between align-items-center ">
           <div class="header-action">
-            <h1 class="page-title">Admitted Students</h1>
+            <h1 class="page-title">Incomes</h1>
             <ol class="breadcrumb page-breadcrumb">
               <li class="breadcrumb-item">
                 <nuxt-link to="/">Dashboard</nuxt-link>
               </li>
               <li class="breadcrumb-item active" aria-current="page">
-                Admitted Students
+                Incomes
               </li>
             </ol>
           </div>
@@ -25,13 +25,23 @@
                 >List View</a
               >
             </li>
-            <li class="nav-item" v-if="add">
+            <li class="nav-item">
               <a
                 class="nav-link"
                 :class="[add ? 'active' : '']"
                 data-toggle="tab"
                 @click.prevent="switchTab('add')"
                 href="#pro-add"
+                >{{incomeText}}</a
+              >
+            </li>
+            <li class="nav-item" v-if="manage">
+              <a
+                class="nav-link"
+                :class="[manage ? 'active' : '']"
+                data-toggle="tab"
+                @click.prevent="switchTab('manage')"
+                href="#pro-details"
                 >Manage</a
               >
             </li>
@@ -43,12 +53,12 @@
       <div class="container-fluid">
         <div class="tab-content">
           <div class="tab-pane" :class="[list ? 'active' : '']" id="pro-all">
-            <list-all-student
+            <list-income
               v-if="list"
-              :status="`Admitted`"
-              :pageType="`admitted_students`"
-              :emitTo="`admitted_students`"
-              :emitDetailsTo="`admitted_student_details`"
+              :status="`All`"
+              :pageType="`accounts`"
+              :emitTo="`accounts`"
+              :emitDetailsTo="`income_details`"
               :show="true"
               :edit="true"
             />
@@ -58,6 +68,18 @@
             v-if="add"
             :class="[add ? 'active' : '']"
             id="pro-add"
+          >
+            <div class="card">
+              <div class="table-responsive">
+                <manage-income v-if="add"/>
+              </div>
+            </div>
+          </div>
+          <div
+            class="tab-pane"
+            v-if="manage"
+            :class="[manage ? 'active' : '']"
+            id="pro-details"
           >
             <div class="card">
               <div class="table-responsive"></div>
@@ -70,10 +92,11 @@
 </template>
 <script>
 import { mapGetters } from "vuex";
-import ListAllStudent from "../../components/Student/ListAllStudent.vue";
+import ListIncome from "../../components/Account/ListIncome.vue";
+import ManageIncome from "../../components/Account/ManageIncome.vue";
 
 export default {
-  components: { ListAllStudent },
+  components: { ListIncome, ManageIncome },
   computed: {
     ...mapGetters({
       select: "select/select",
@@ -81,7 +104,15 @@ export default {
   },
   mounted() {
     let self = this;
-    self.$root.$on("admitted_student_details", function(val) {
+    self.$root.$on("income_details", function(val) {
+      self.switchTab("manage");
+    });
+    self.$root.$on("edit-account", function(val) {
+      self.incomeText = "Edit Income";
+      self.switchTab("add");
+    });
+    self.$root.$on("clone-account", function(val) {
+      self.incomeText = "Clone Income";
       self.switchTab("add");
     });
   },
@@ -89,7 +120,9 @@ export default {
     return {
       add: false,
       list: true,
+      manage: false,
       addText: "Manage",
+      incomeText: "New income",
       roles: [],
     };
   },
@@ -99,10 +132,17 @@ export default {
         case "list":
           this.list = true;
           this.add = false;
+          this.manage = false;
           break;
         case "add":
           this.list = false;
           this.add = true;
+          this.manage = false;
+          break;
+        case "manage":
+          this.list = false;
+          this.add = false;
+          this.manage = true;
           break;
         default:
           break;

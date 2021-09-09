@@ -4,6 +4,7 @@
 export const state = () => ({
   session: null,
   file: null,
+  file_name: null,
   file_type: "",
   files: [],
 });
@@ -12,6 +13,7 @@ export const state = () => ({
 export const getters = {
   files: (state) => state.files,
   file: (state) => state.file,
+  file_name: (state) => state.file_name,
   file_type: (state) => state.file_type,
 };
 
@@ -21,6 +23,10 @@ export const mutations = {
     state.file = file;
   },
 
+  SET_FILE_NAME(state, file_name) {
+    state.file_name = file_name;
+  },
+  
   SET_FILES(state, files) {
     state.files = files;
   },

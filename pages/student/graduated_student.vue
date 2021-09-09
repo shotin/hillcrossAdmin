@@ -48,6 +48,9 @@
               :status="`Graduated`"
               :pageType="`graduated_students`"
               :emitTo="`graduated_students`"
+              :emitDetailsTo="`graduated_student_details`"
+              :show="true"
+              :edit="true"
             />
           </div>
           <div
@@ -78,7 +81,7 @@ export default {
   },
   mounted() {
     let self = this;
-    self.$root.$on("student-details", function(val) {
+    self.$root.$on("graduated_student_details", function(val) {
       self.switchTab("add");
     });
   },

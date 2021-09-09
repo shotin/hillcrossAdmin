@@ -127,6 +127,10 @@ export default {
       required: true,
       type: String,
     },
+    folder: {
+      type: String,
+      default: "users",
+    },
   },
   computed: {
     fileFormat: function() {
@@ -142,6 +146,18 @@ export default {
           format = ".flv,.mp4,.mov,.avi,.wmv";
           break;
         case "image":
+          format = ".png,.jpg,.jpeg,.gif";
+          break;
+        case "pdf":
+          format = ".pdf";
+          break;
+        case "docx":
+          format = ".docx,.doc";
+          break;
+        case "xlss":
+          format = ".xlsx,.csv";
+          break;
+        case "img":
           format = ".png,.jpg,.jpeg,.gif";
           break;
         default:
@@ -215,6 +231,7 @@ export default {
             "upload/SET_FILE",
             `https:${presigned_url.split("?")[0].substr(6)}`
           );
+          this.$store.commit("upload/SET_FILE_NAME", this.file.name);
           this.file.asset_link = `https:${presigned_url
             .split("?")[0]
             .substr(6)}`;

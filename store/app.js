@@ -4,6 +4,7 @@ export const state = () => ({
   pageTitle: "",
   pageViewData: {},
   pageShowData: {},
+  pageCloneData: {},
   pageType: null,
   pageData: null,
 });
@@ -15,6 +16,7 @@ export const getters = {
   pageData: (state) => state.pageData,
   pageViewData: (state) => state.pageViewData,
   pageShowData: (state) => state.pageShowData,
+  pageCloneData: (state) => state.pageCloneData,
 };
 
 // mutations
@@ -36,6 +38,9 @@ export const mutations = {
   },
   SET_SHOW_DATA(state, data) {
     state.pageShowData = data;
+  },
+  SET_CLONE_DATA(state, data) {
+    state.pageCloneData = data;
   },
   UPDATE_DATA(state, data) {
     let index = state.pageData.findIndex((d) => {

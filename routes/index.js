@@ -109,4 +109,19 @@ module.exports = [
     path: "/students/dropped-out",
     component: "./pages/student/dropped_out_student.vue",
   },
+  {
+    name: "academic-records",
+    path: "/students/academic-records",
+    component: "./pages/student/academic_record.vue",
+  },
+  {
+    name: "income",
+    path: "/accounts/income",
+    component: "./pages/account/income.vue",
+  },
+  {
+    name: "database",
+    path: "/marketing/databases",
+    component: "./pages/marketing/database.vue",
+  },
 ];
