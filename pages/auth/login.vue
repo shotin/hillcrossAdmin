@@ -84,8 +84,8 @@ export default {
   methods: {
     getForm() {
       return {
-        username: "ridwan2bus@gmail.com",
-        password: "password12",
+        username: "",
+        password: "",
         remember_me: true,
       };
     },
