@@ -3,7 +3,7 @@
     <div class="container-fluid">
       <div class="page-header">
         <div class="left">
-          <div class="input-group">
+          <!-- <div class="input-group">
             <input
               type="text"
               class="form-control"
@@ -14,17 +14,17 @@
                 Search
               </button>
             </div>
-          </div>
+          </div> -->
         </div>
         <div class="right">
           <div class="notification d-flex">
             <div class="dropdown d-flex">
-              <a
+              <!-- <a
                 class="nav-link icon d-none d-md-flex btn btn-default btn-icon ml-1"
                 data-toggle="dropdown"
                 ><i class="fa fa-envelope"></i
                 ><span class="badge badge-success nav-unread"></span
-              ></a>
+              ></a> -->
               <div
                 class="dropdown-menu dropdown-menu-right dropdown-menu-arrow"
               >
@@ -108,12 +108,12 @@
               </div>
             </div>
             <div class="dropdown d-flex">
-              <a
+              <!-- <a
                 class="nav-link icon d-none d-md-flex btn btn-default btn-icon ml-1"
                 data-toggle="dropdown"
                 ><i class="fa fa-bell"></i
                 ><span class="badge badge-primary nav-unread"></span
-              ></a>
+              ></a> -->
               <div
                 class="dropdown-menu dropdown-menu-right dropdown-menu-arrow"
               >
@@ -204,9 +204,9 @@
                 <a class="dropdown-item" href="#"
                   ><i class="dropdown-icon fa fa-user"></i> Profile</a
                 >
-                <a class="dropdown-item" href="#"
+                <!-- <a class="dropdown-item" href="#"
                   ><i class="dropdown-icon fa fa-tools"></i> Settings</a
-                >
+                > -->
                 <a class="dropdown-item" href="#"
                   ><span class="float-right"
                     ><span class="badge badge-primary">6</span></span
@@ -216,9 +216,9 @@
                   ><i class="dropdown-icon fa fa-send"></i> Message</a
                 >
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="javascript:void(0)"
+                <!-- <a class="dropdown-item" href="javascript:void(0)"
                   ><i class="dropdown-icon fa fa-question"></i> Need help?</a
-                >
+                > -->
                 <a class="dropdown-item" href="#" @click="logout()"
                   ><i class="dropdown-icon fa fa-power-off"></i> Sign out</a
                 >

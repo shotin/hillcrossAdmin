@@ -1,17 +1,15 @@
 <template>
-  <div id="left-sidebar" class="sidebar">
+  <div id="left-sidebar" class="sidebar custom-color" style="background: linear-gradient(45deg, #b5002a, #dc3535);">
     <h5 class="brand-name">
       Hillcross College
     </h5>
     <ul class="nav nav-tabs">
       <li class="nav-item">
-        <a class="nav-link active" data-toggle="tab" href="#menu-uni"
-          >University</a
-        >
+        <a class="nav-link active" data-toggle="tab" href="#menu-uni">Menu</a>
       </li>
-      <li class="nav-item">
+      <!-- <li class="nav-item">
         <a class="nav-link" data-toggle="tab" href="#menu-admin">Admin</a>
-      </li>
+      </li> -->
     </ul>
     <div class="tab-content mt-3">
       <div class="tab-pane fade show active" id="menu-uni" role="tabpanel">
@@ -194,7 +192,7 @@
                   </nuxt-link>
                 </li>
                 <li>
-                  <nuxt-link class="nav-link" to="/staff/academic"
+                  <nuxt-link class="nav-link" to="/quotes"
                     ><i class="fa fa-credit-card"></i>Quotes
                   </nuxt-link>
                 </li>
@@ -220,24 +218,20 @@
 
             <li class="g_heading">Extra</li>
             <li>
-              <a href="app-chat.html"
-                ><i class="fa fa-comments"></i><span>Chat App</span></a
+              <nuxt-link to="/activity-logs"
+                ><i class="fa fa-comments"></i
+                ><span>Activity Log</span></nuxt-link
               >
             </li>
-            <li>
-              <a href="gallery.html"
-                ><i class="fa fa-camera-retro"></i><span>Gallery</span></a
-              >
-            </li>
-            <li>
+            <!-- <li>
               <a href="gallery.html"
                 ><i class="fa fa-camera-retro"></i><span>Report</span></a
               >
-            </li>
+            </li> -->
           </ul>
         </nav>
       </div>
-      <div class="tab-pane fade" id="menu-admin" role="tabpanel">
+      <!-- <div class="tab-pane fade" id="menu-admin" role="tabpanel">
         <nav class="sidebar-nav">
           <ul class="metismenu">
             <li>
@@ -284,7 +278,7 @@
             </li>
           </ul>
         </nav>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
@@ -330,5 +324,8 @@ export default {
 }
 .metismenu ul ul a {
   padding: 2px 3px 4px 40px;
+}
+.custom-color {
+  background: linear-gradient(145deg,  #b5002a,  #dc3535) !important;
 }
 </style>

@@ -38,21 +38,26 @@
               <strong>{{ marketing.date_created }}</strong>
             </td>
             <td>
-              <button type="button" class="btn btn-icon btn-sm" title="View">
-                <i class="fa fa-eye"></i>
+              <button
+                type="button"
+                class="btn btn-icon btn-sm"
+                @click="download(marketing)"
+                title="View"
+              >
+                <i class="fa fa-download"></i>
               </button>
               <button
                 type="button"
                 class="btn btn-icon btn-sm"
                 @click="openEdit(marketing)"
-                title="Edit"
+                title="Download"
               >
                 <i class="fa fa-edit"></i>
               </button>
               <delete-item
                 :want_block="true"
                 :data="marketing"
-                :url="`/roles/${marketing.id}`"
+                :url="`/marketing/databases/${marketing.id}`"
                 :storeItem="`app/REMOVE_DATA`"
               />
             </td>
@@ -134,6 +139,9 @@ export default {
       const update = { ...data, timestamp: time.getTime() };
       this.$store.commit("app/SET_VIEW_DATA", update);
     },
+    download(data) {
+      window.open(data.file_url, '_blank')
+    }
   },
 };
 </script>

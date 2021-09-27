@@ -165,7 +165,7 @@ export default {
         })
         .then((res) => {
           this.$store.commit("app/SET_DATA", res.data.data);
-          this.$store.commit("app/SET_TYPE", this.pageType);
+          this.$store.commit("app/SET_TYPE", 'databases');
           this.$root.$emit("update_pagination", res.data.meta);
           this.records = res.data.meta;
         })

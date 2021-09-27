@@ -21,9 +21,9 @@ export default {
       { name: 'format-detection', content: 'telephone=no' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.png' },
       { rel: 'stylesheet', href: 'https://nsdbytes.com/template/ericssion/assets/plugins/bootstrap/css/bootstrap.min.css' },
-      { rel: 'stylesheet', href: 'https://nsdbytes.com/template/ericssion/assets/css/style.min.css' },
+      { rel: 'stylesheet', href: '/assets/css/style.min.css' },
       { rel: 'stylesheet', href: 'https://nsdbytes.com/template/ericssion/assets/plugins/summernote/dist/summernote.css' },
       { rel: 'stylesheet', href: 'https://nsdbytes.com/template/ericssion/assets/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css' },
       { rel: 'stylesheet', href: 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css' },

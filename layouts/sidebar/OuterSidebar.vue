@@ -3,11 +3,11 @@
     <!-- far left side -->
     <far-left-sidebar />
     <!-- pop side -->
-    <far-right-pop />
+    <!-- <far-right-pop /> -->
     <!-- color switcher -->
-    <color-switcher />
+    <!-- <color-switcher /> -->
     <!-- pop from bottom -->
-    <right-bottom-pop />
+    <!-- <right-bottom-pop /> -->
     <!-- sidebar -->
     <inner-sidebar />
   </span>

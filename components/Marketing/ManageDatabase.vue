@@ -126,16 +126,14 @@ import { notify, handleError } from "@/assets/js/utility";
 import FileType from "../FileType.vue";
 
 export default {
-  props: {
-    qualifications: {
-      type: Array,
-    },
-    levels: {
-      type: Array,
-    },
-    roles: {
-      type: Array,
-    },
+  mounted() {
+    let self = this;
+    this.$root.$on("bv::modal::hidden", (bvEvent, modalId) => {
+      if (modalId === "custom-uploader") {
+        if (!self.file) self.form.file_url = "";
+      }
+    });
+    this.$root.$on("edit-database", this.getListenedDatabase);
   },
   data() {
     return {
@@ -229,18 +227,6 @@ export default {
       }
     },
   },
-  mounted() {
-    let self = this;
-    self.$root.$on("bv::modal::hidden", (bvEvent, modalId) => {
-      if (modalId === "custom-uploader") {
-        if (!self.file) self.form.file_url = "";
-      }
-    });
-    self.$root.$on("edit-database", function(val) {
-      self.buttonName = "Update";
-      self.isUpdate = true;
-    });
-  },
   methods: {
     triggerUploader() {
       this.$bvModal.show("custom-uploader");
@@ -316,6 +302,11 @@ export default {
         current_page: 1,
       };
     },
+    getListenedDatabase () {
+      console.log('edit is here')
+      self.buttonName = "Update";
+      self.isUpdate = true;
+    }
   },
 };
 </script>

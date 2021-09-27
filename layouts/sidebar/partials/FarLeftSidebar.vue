@@ -2,10 +2,10 @@
   <div id="header_top" class="header_top">
     <div class="container">
       <div class="hleft">
-        <a class="header-brand" href="index.html"
+        <nuxt-link class="header-brand" to="/"
           ><i class="fa fa-graduation-cap brand-logo"></i
-        ></a>
-        <div class="dropdown">
+        ></nuxt-link>
+        <!-- <div class="dropdown">
           <a href="javascript:void(0)" class="nav-link icon menu_toggle"
             ><i class="fa fa-align-center"></i
           ></a>
@@ -47,13 +47,13 @@
           <a href="javascript:void(0)" class="nav-link icon settingbar"
             ><i class="fa fa-tools"></i
           ></a>
-        </div>
+        </div> -->
       </div>
       <div class="hright">
-        <a href="javascript:void(0)" class="nav-link icon right_tab"
+        <!-- <a href="javascript:void(0)" class="nav-link icon right_tab"
           ><i class="fa fa-align-right"></i
-        ></a>
-        <a href="login.html" class="nav-link icon settingbar"
+        ></a> -->
+        <a href="" @click="logout()" class="nav-link icon settingbar"
           ><i class="fa fa-power-off"></i
         ></a>
       </div>
@@ -61,5 +61,18 @@
   </div>
 </template>
 <script>
-export default {};
+import { mapActions, mapGetters } from "vuex";
+export default {
+  computed: {
+    ...mapGetters({
+      user: "auth/user",
+    }),
+  },
+  methods: {
+    ...mapActions({
+      logout: "auth/logout",
+    }),
+  },
+};
 </script>
+

@@ -4,13 +4,13 @@
       <div class="container-fluid">
         <div class="d-flex justify-content-between align-items-center ">
           <div class="header-action">
-            <h1 class="page-title">Marketing - Database</h1>
+            <h1 class="page-title">Activity Logs</h1>
             <ol class="breadcrumb page-breadcrumb">
               <li class="breadcrumb-item">
                 <nuxt-link to="/">Dashboard</nuxt-link>
               </li>
               <li class="breadcrumb-item active" aria-current="page">
-                Marketing - Database
+                Activity Logs
               </li>
             </ol>
           </div>
@@ -25,16 +25,6 @@
                 >List View</a
               >
             </li>
-            <li class="nav-item">
-              <a
-                class="nav-link"
-                :class="[add ? 'active' : '']"
-                data-toggle="tab"
-                @click.prevent="switchTab('add')"
-                href="#pro-add"
-                >{{ addText }}</a
-              >
-            </li>
           </ul>
         </div>
       </div>
@@ -43,10 +33,11 @@
       <div class="container-fluid">
         <div class="tab-content">
           <div class="tab-pane" :class="[list ? 'active' : '']" id="pro-all">
-            <list-database v-if="list" />
-          </div>
-          <div class="tab-pane" :class="[add ? 'active' : '']" id="pro-add">
-            <manage-database v-if="add" />
+            <div class="card">
+              <div class="table-responsive">
+                <activity-log />
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -55,14 +46,12 @@
 </template>
 <script>
 import { mapGetters } from "vuex";
-import ListDatabase from "../../components/Marketing/ListDatabase.vue";
-import ManageDatabase from "../../components/Marketing/ManageDatabase.vue";
-
+import ActivityLog from '@/components/ActivityLog.vue';
 export default {
-  components: { ListDatabase, ManageDatabase },
+  components: { ActivityLog },
   mounted() {
     let self = this;
-    self.$root.$on("edit-database", function(val) {
+    self.$root.$on("edit-role", function(val) {
       self.add = true;
       (self.list = false), (self.addText = "Edit");
     });
@@ -72,6 +61,7 @@ export default {
       add: false,
       list: true,
       addText: "Add",
+      permissions: [],
     };
   },
   methods: {
@@ -88,7 +78,7 @@ export default {
         default:
           break;
       }
-    },
+    }
   },
 };
 </script>

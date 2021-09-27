@@ -124,4 +124,14 @@ module.exports = [
     path: "/marketing/databases",
     component: "./pages/marketing/database.vue",
   },
+  {
+    name: "quote",
+    path: "/quotes",
+    component: "./pages/quote/quote.vue",
+  },
+  {
+    name: "activities",
+    path: "/activity-logs",
+    component: "./pages/activity/logs.vue",
+  },
 ];
