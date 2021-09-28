@@ -44,6 +44,11 @@
                   </nuxt-link>
                 </li>
                 <li>
+                  <nuxt-link class="nav-link" to="/staff/archived"
+                    ><i class="fa fa-user-times"></i>Archived Staff
+                  </nuxt-link>
+                </li>
+                <li>
                   <nuxt-link class="nav-link" to="/leaves"
                     ><i class="fa fa-house-user"></i>Leave Management
                   </nuxt-link>
@@ -119,11 +124,11 @@
                     ><i class="fa fa-book"></i>Academic Record
                   </nuxt-link>
                 </li>
-                <li>
+                <!-- <li>
                   <a class="nav-link" href="#"
                     ><i class="fa fa-house-user"></i>Accommodation
                   </a>
-                </li>
+                </li> -->
                 <li>
                   <nuxt-link class="nav-link" to="/students/admitted">
                     <i class="fa fa-user-check"></i>Admitted List

@@ -30,6 +30,11 @@ module.exports = [
     component: "./pages/staff/non_academic.vue",
   },
   {
+    name: "archived_staff",
+    path: "/staff/archived",
+    component: "./pages/staff/archived.vue",
+  },
+  {
     name: "attendance",
     path: "/staff/attendances",
     component: "./pages/staff/attendance.vue",
@@ -133,5 +138,10 @@ module.exports = [
     name: "activities",
     path: "/activity-logs",
     component: "./pages/activity/logs.vue",
+  },
+  {
+    name: "profile",
+    path: "/profile",
+    component: "./pages/profile.vue",
   },
 ];

@@ -201,20 +201,20 @@
               <div
                 class="dropdown-menu dropdown-menu-right dropdown-menu-arrow"
               >
-                <a class="dropdown-item" href="#"
-                  ><i class="dropdown-icon fa fa-user"></i> Profile</a
+                <nuxt-link class="dropdown-item" to="/profile"
+                  ><i class="dropdown-icon fa fa-user"></i> Profile</nuxt-link
                 >
                 <!-- <a class="dropdown-item" href="#"
                   ><i class="dropdown-icon fa fa-tools"></i> Settings</a
                 > -->
-                <a class="dropdown-item" href="#"
+                <!-- <a class="dropdown-item" href="#"
                   ><span class="float-right"
                     ><span class="badge badge-primary">6</span></span
                   ><i class="dropdown-icon fa fa-envelope"></i> Inbox</a
                 >
                 <a class="dropdown-item" href="javascript:void(0)"
                   ><i class="dropdown-icon fa fa-send"></i> Message</a
-                >
+                > -->
                 <div class="dropdown-divider"></div>
                 <!-- <a class="dropdown-item" href="javascript:void(0)"
                   ><i class="dropdown-icon fa fa-question"></i> Need help?</a
