@@ -12,93 +12,102 @@
       :payslipIds="payslipIds"
       v-if="payslipIds.length > 1"
     />
-    <table
-      class="table table-hover table-vcenter table-striped mb-0"
-      v-if="type === 'payslips'"
-    >
-      <thead>
-        <tr>
-          <th>
-            <input type="checkbox" @click="selectAll" v-model="allSelected" />
-          </th>
-          <th></th>
-          <th>Staff</th>
-          <th>Role</th>
-          <th>Payment Month</th>
-          <th>Payment Year</th>
-          <th>Payment Date</th>
-          <th>Status</th>
-          <th>Date Created</th>
-          <th>Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="payslip in payslips" :key="payslip.id">
-          <td>
-            <input
-              type="checkbox"
-              v-model="payslipIds"
-              :value="payslip.id"
-              v-if="payslip.can_mark"
-            />
-          </td>
-          <td class="w60" v-if="payslip.staff.avatar">
-            <img
-              class="avatar"
-              :src="payslip.staff.avatar"
-              :alt="payslip.staff.name"
-            />
-          </td>
-          <td class="w60" v-else>
-            <div
-              class="avatar avatar-pink"
-              data-toggle="tooltip"
-              data-placement="top"
-              title=""
-              data-original-title="Avatar Name"
-            >
-              <span>{{ payslip.staff.avatar_alternative }}</span>
-            </div>
-          </td>
-          <td>
-            <div class="font-15">{{ payslip.staff.name }}</div>
-          </td>
-          <td>
-            <div class="font-15">{{ payslip.role.name }}</div>
-          </td>
-          <td>
-            <div class="font-15">{{ payslip.payment_month }}</div>
-          </td>
-          <td>
-            <div class="font-15">{{ payslip.payment_year }}</div>
-          </td>
-          <td>
-            <div class="font-15">{{ payslip.payment_date }}</div>
-          </td>
-          <td>
-            <strong>{{ payslip.status }}</strong>
-          </td>
-          <td>
-            <strong>{{ payslip.date_created }}</strong>
-          </td>
-          <td width="150">
-            <button
-              type="button"
-              class="btn btn-icon btn-sm"
-              @click="openShow(payslip)"
-              title="Details"
-            >
-              <i class="fa fa-eye"></i>
-            </button>
-            <update-payslip
-              :isSingle="true"
-              :payslipIds="payslipIds"
-              :payslip="payslip"
-            />
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <span v-if="type === 'payslips'">
+      <table class="table table-hover table-vcenter table-striped mb-0">
+        <thead>
+          <tr>
+            <th>
+              <input type="checkbox" @click="selectAll" v-model="allSelected" />
+            </th>
+            <th></th>
+            <th>Staff</th>
+            <th>Role</th>
+            <th>Payment Month</th>
+            <th>Payment Year</th>
+            <th>Payment Date</th>
+            <th>Status</th>
+            <th>Date Created</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="payslip in payslips" :key="payslip.id">
+            <td>
+              <input
+                type="checkbox"
+                v-model="payslipIds"
+                :value="payslip.id"
+                v-if="payslip.can_mark"
+              />
+            </td>
+            <td class="w60" v-if="payslip.staff.avatar">
+              <img
+                class="avatar"
+                :src="payslip.staff.avatar"
+                :alt="payslip.staff.name"
+              />
+            </td>
+            <td class="w60" v-else>
+              <div
+                class="avatar avatar-pink"
+                data-toggle="tooltip"
+                data-placement="top"
+                title=""
+                data-original-title="Avatar Name"
+              >
+                <span>{{ payslip.staff.avatar_alternative }}</span>
+              </div>
+            </td>
+            <td>
+              <div class="font-15">{{ payslip.staff.name }}</div>
+            </td>
+            <td>
+              <div class="font-15">{{ payslip.role.name }}</div>
+            </td>
+            <td>
+              <div class="font-15">{{ payslip.payment_month }}</div>
+            </td>
+            <td>
+              <div class="font-15">{{ payslip.payment_year }}</div>
+            </td>
+            <td>
+              <div class="font-15">{{ payslip.payment_date }}</div>
+            </td>
+            <td>
+              <strong>{{ payslip.status }}</strong>
+            </td>
+            <td>
+              <strong>{{ payslip.date_created }}</strong>
+            </td>
+            <td width="150">
+              <button
+                type="button"
+                class="btn btn-icon btn-sm"
+                @click="openShow(payslip)"
+                title="Details"
+              >
+                <i class="fa fa-eye"></i>
+              </button>
+              <update-payslip
+                :isSingle="true"
+                :payslipIds="payslipIds"
+                :payslip="payslip"
+              />
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <hr />
+      <paginate
+        :pagination="records"
+        @paginate="payslips"
+        :offset="4"
+        :emitTo="`payslip_paginate`"
+        class="mb-1 ml-2"
+        v-if="payslips.length"
+      />
+    </span>
+
     <loader v-else />
     <generate-payment />
   </span>
@@ -119,7 +128,7 @@ export default {
       payslipIds: [],
       form: this.getForm(),
       loading: false,
-      disabled: false
+      disabled: false,
     };
   },
   components: {
@@ -218,11 +227,11 @@ export default {
     },
     getForm() {
       return {
-        status: '',
-        month: '',
-        year: ''
-      }
-    }
+        status: "",
+        month: "",
+        year: "",
+      };
+    },
   },
 };
 </script>

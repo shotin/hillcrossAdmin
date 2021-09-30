@@ -1,6 +1,6 @@
 <template>
   <table
-    class="table table-hover table-vcenter text-nowrap table-striped mb-0"
+    class="table table-hover table-vcenter table-striped mb-0"
     v-if="type === 'logs'"
   >
     <thead>

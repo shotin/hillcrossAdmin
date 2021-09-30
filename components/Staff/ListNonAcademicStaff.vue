@@ -1,89 +1,99 @@
 <template>
-  <table
-    class="table table-hover table-vcenter text-nowrap table-striped mb-0"
-    v-if="type === 'non_academic_staffs'"
-  >
-    <thead>
-      <tr>
-        <th>Avatar</th>
-        <th>Name</th>
-        <th>Email</th>
-        <th>Phone Number</th>
-        <th>Role</th>
-        <th>Date Created</th>
-        <th>Status</th>
-        <th>Mode</th>
-        <th>Action</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr v-for="staff in academic_staff" :key="staff.id">
-        <td class="w60" v-if="staff.profile.avatar">
-          <img
-            class="avatar"
-            :src="staff.profile.avatar"
-            :alt="staff.first_name"
-          />
-        </td>
-        <td class="w60" v-else>
-          <div
-            class="avatar avatar-pink"
-            data-toggle="tooltip"
-            data-placement="top"
-            title=""
-            data-original-title="Avatar Name"
-          >
-            <span>{{ staff.avatar_alternative }}</span>
-          </div>
-        </td>
-        <td>
-          <div class="font-15">{{ staff.name }}</div>
-        </td>
-        <td>
-          <span>{{ staff.email }}</span>
-        </td>
-        <td>
-          <span>{{ staff.phone_number }}</span>
-        </td>
-        <td>
-          {{ staff.role }}
-        </td>
-        <td>
-          <strong>{{ staff.date_created }}</strong>
-        </td>
-        <td>
-          <span class="tag tag-success">{{ staff.status_word }}</span>
-        </td>
-        <td>
-          <span class="tag tag-success">{{ staff.mode }}</span>
-        </td>
-        <td>
-          <button
-            type="button"
-            class="btn btn-icon btn-sm"
-            @click="openShow(staff)"
-            title="View"
-          >
-            <i class="fa fa-eye"></i>
-          </button>
-          <button
-            type="button"
-            class="btn btn-icon btn-sm"
-            @click="openEdit(staff)"
-            title="Edit"
-          >
-            <i class="fa fa-edit"></i>
-          </button>
-          <delete-item
-            :want_block="true"
-            :data="staff"
-            :url="`/administrators/${staff.id}`"
-            :storeItem="`app/REMOVE_DATA`"
-          />
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <span v-if="type === 'non_academic_staffs'">
+    <table
+      class="table table-hover table-vcenter text-nowrap table-striped mb-0"
+    >
+      <thead>
+        <tr>
+          <th>Avatar</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Phone Number</th>
+          <th>Role</th>
+          <th>Date Created</th>
+          <th>Status</th>
+          <th>Mode</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="staff in academic_staff" :key="staff.id">
+          <td class="w60" v-if="staff.profile.avatar">
+            <img
+              class="avatar"
+              :src="staff.profile.avatar"
+              :alt="staff.first_name"
+            />
+          </td>
+          <td class="w60" v-else>
+            <div
+              class="avatar avatar-pink"
+              data-toggle="tooltip"
+              data-placement="top"
+              title=""
+              data-original-title="Avatar Name"
+            >
+              <span>{{ staff.avatar_alternative }}</span>
+            </div>
+          </td>
+          <td>
+            <div class="font-15">{{ staff.name }}</div>
+          </td>
+          <td>
+            <span>{{ staff.email }}</span>
+          </td>
+          <td>
+            <span>{{ staff.phone_number }}</span>
+          </td>
+          <td>
+            {{ staff.role }}
+          </td>
+          <td>
+            <strong>{{ staff.date_created }}</strong>
+          </td>
+          <td>
+            <span class="tag tag-success">{{ staff.status_word }}</span>
+          </td>
+          <td>
+            <span class="tag tag-success">{{ staff.mode }}</span>
+          </td>
+          <td>
+            <button
+              type="button"
+              class="btn btn-icon btn-sm"
+              @click="openShow(staff)"
+              title="View"
+            >
+              <i class="fa fa-eye"></i>
+            </button>
+            <button
+              type="button"
+              class="btn btn-icon btn-sm"
+              @click="openEdit(staff)"
+              title="Edit"
+            >
+              <i class="fa fa-edit"></i>
+            </button>
+            <delete-item
+              :want_block="true"
+              :data="staff"
+              :url="`/administrators/${staff.id}`"
+              :storeItem="`app/REMOVE_DATA`"
+            />
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <hr />
+    <paginate
+      :pagination="records"
+      @paginate="academic_staff"
+      :offset="4"
+      :emitTo="`non_academic_staff_paginate`"
+      class="mb-1 ml-2"
+      v-if="academic_staff.length"
+    />
+  </span>
   <loader v-else />
 </template>
 <script>

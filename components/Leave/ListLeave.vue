@@ -1,75 +1,85 @@
 <template>
-  <table
-    class="table table-hover table-vcenter text-nowrap table-striped mb-0"
-    v-if="type === 'leaves'"
-  >
-    <thead>
-      <tr>
-        <th>Reviewer</th>
-        <th>Reason</th>
-        <th>Start Date</th>
-        <th>End Date</th>
-        <th>Status</th>
-        <th>Date Created</th>
-        <th>Action</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr v-for="leave in leaves" :key="leave.id">
-        <td>
-          <div class="font-15">{{ leave.reviewer.name }}</div>
-        </td>
-        <td>
-          <strong>{{ leave.reason.name }}</strong>
-        </td>
-        <td>
-          <strong>{{ leave.start_date }}</strong>
-        </td>
-        <td>
-          <strong>{{ leave.end_date }}</strong>
-        </td>
-        <td>
-          <strong>{{ leave.status }}</strong>
-        </td>
-        <td>
-          <strong>{{ leave.date_created }}</strong>
-        </td>
-        <td>
-          <button
-            type="button"
-            class="btn btn-icon btn-sm"
-            @click="openDetails(leave)"
-            title="View"
-          >
-            <i class="fa fa-eye"></i>
-          </button>
-          <button
-            type="button"
-            class="btn btn-icon btn-sm"
-            @click="openEdit(leave)"
-            title="Edit"
-          >
-            <i class="fa fa-edit"></i>
-          </button>
-          <button
-            v-if="leave.status !== 'Approved'"
-            type="button"
-            class="btn btn-icon btn-sm"
-            @click="approveLeave(leave)"
-            title="View"
-          >
-            <i class="fa fa-thumbs-up text-success"></i>
-          </button>
-          <delete-item
-            :want_block="true"
-            :data="leave"
-            :url="`/leaves/${leave.id}`"
-            :storeItem="`app/REMOVE_DATA`"
-          />
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <span v-if="type === 'leaves'">
+    <table
+      class="table table-hover table-vcenter text-nowrap table-striped mb-0"
+    >
+      <thead>
+        <tr>
+          <th>Reviewer</th>
+          <th>Reason</th>
+          <th>Start Date</th>
+          <th>End Date</th>
+          <th>Status</th>
+          <th>Date Created</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="leave in leaves" :key="leave.id">
+          <td>
+            <div class="font-15">{{ leave.reviewer.name }}</div>
+          </td>
+          <td>
+            <strong>{{ leave.reason.name }}</strong>
+          </td>
+          <td>
+            <strong>{{ leave.start_date }}</strong>
+          </td>
+          <td>
+            <strong>{{ leave.end_date }}</strong>
+          </td>
+          <td>
+            <strong>{{ leave.status }}</strong>
+          </td>
+          <td>
+            <strong>{{ leave.date_created }}</strong>
+          </td>
+          <td>
+            <button
+              type="button"
+              class="btn btn-icon btn-sm"
+              @click="openDetails(leave)"
+              title="View"
+            >
+              <i class="fa fa-eye"></i>
+            </button>
+            <button
+              type="button"
+              class="btn btn-icon btn-sm"
+              @click="openEdit(leave)"
+              title="Edit"
+            >
+              <i class="fa fa-edit"></i>
+            </button>
+            <button
+              v-if="leave.status !== 'Approved'"
+              type="button"
+              class="btn btn-icon btn-sm"
+              @click="approveLeave(leave)"
+              title="View"
+            >
+              <i class="fa fa-thumbs-up text-success"></i>
+            </button>
+            <delete-item
+              :want_block="true"
+              :data="leave"
+              :url="`/leaves/${leave.id}`"
+              :storeItem="`app/REMOVE_DATA`"
+            />
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <hr />
+    <paginate
+      :pagination="records"
+      @paginate="leaves"
+      :offset="4"
+      :emitTo="`leave_paginate`"
+      class="mb-1 ml-2"
+      v-if="leaves.length"
+    />
+  </span>
   <loader v-else />
 </template>
 <script>
@@ -146,15 +156,15 @@ export default {
       this.$router.push(`/leaves/${leave.id}`);
     },
     async approveLeave(leave) {
-      notify('Approve request in progress', 'info')
+      notify("Approve request in progress", "info");
       await this.$axios
         .get(`/leaves/${leave.id}/approve`)
         .then((res) => {
           this.$store.commit("app/UPDATE_DATA", res.data.data);
-          notify('Leave approved successfully', 'success')
+          notify("Leave approved successfully", "success");
         })
         .catch((err) => {
-          handleError(err)
+          handleError(err);
         });
     },
   },
