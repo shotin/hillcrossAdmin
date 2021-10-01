@@ -60,13 +60,23 @@
     <div class="col-lg-3 col-md-4 col-sm-6 mb-2">
       <div class="form-inline">
         <label for="" class="mr-2">From: </label>
-        <input type="date" class="form-control" placeholder="Start date" />
+        <input
+          type="date"
+          v-model="form.start_date"
+          class="form-control"
+          placeholder="Start date"
+        />
       </div>
     </div>
     <div class="col-lg-3 col-md-4 col-sm-6 mb-2">
       <div class="form-inline">
         <label for="" class="mr-2">To: </label>
-        <input type="date" class="form-control" placeholder="End date" />
+        <input
+          type="date"
+          class="form-control"
+          v-model="form.end_date"
+          placeholder="End date"
+        />
       </div>
     </div>
     <div class="col-lg-1 col-md-4 col-sm-6">
@@ -165,7 +175,7 @@ export default {
         })
         .then((res) => {
           this.$store.commit("app/SET_DATA", res.data.data);
-          this.$store.commit("app/SET_TYPE", 'databases');
+          this.$store.commit("app/SET_TYPE", "databases");
           this.$root.$emit("update_pagination", res.data.meta);
           this.records = res.data.meta;
         })

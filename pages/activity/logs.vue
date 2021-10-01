@@ -33,11 +33,7 @@
       <div class="container-fluid">
         <div class="tab-content">
           <div class="tab-pane" :class="[list ? 'active' : '']" id="pro-all">
-            <div class="card">
-              <div class="table-responsive">
-                <activity-log />
-              </div>
-            </div>
+            <activity-log />
           </div>
         </div>
       </div>
@@ -46,7 +42,7 @@
 </template>
 <script>
 import { mapGetters } from "vuex";
-import ActivityLog from '@/components/ActivityLog.vue';
+import ActivityLog from "@/components/ActivityLog.vue";
 export default {
   components: { ActivityLog },
   mounted() {
@@ -78,7 +74,7 @@ export default {
         default:
           break;
       }
-    }
+    },
   },
 };
 </script>
