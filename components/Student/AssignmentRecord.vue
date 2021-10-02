@@ -1,52 +1,63 @@
 <template>
-  <table
-    class="table responsive table-hover table-vcenter table-striped mb-0"
-    v-if="type === 'assignments'"
-  >
-    <thead>
-      <tr>
-        <th>Teacher</th>
-        <th>Module</th>
-        <th>File Type</th>
-        <th>Submission Date</th>
-        <th>Score</th>
-        <th>Status</th>
-        <th>Action</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr v-for="assignment in assignments" :key="assignment.id">
-        <td>
-          <div class="font-15">{{ assignment.teacher }}</div>
-        </td>
-        <td>
-          <strong>{{ assignment.module }}</strong>
-        </td>
-        <td>
-          <strong>{{ assignment.file_type }}</strong>
-        </td>
-        <td>
-          <strong>{{ assignment.submitted_on }}</strong>
-        </td>
-        <td>
-          <strong>{{ assignment.score }}</strong>
-        </td>
-        <td>
-          <strong>{{ assignment.status }}</strong>
-        </td>
-        <td>
-          <button
-            type="button"
-            class="btn btn-icon btn-sm"
-            @click="openFile(assignment)"
-            title="Open File"
-          >
-            <i class="fa fa-play text-success"></i>
-          </button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <span v-if="type === 'assignments'">
+    <table
+      class="table responsive table-hover table-vcenter table-striped mb-0"
+    >
+      <thead>
+        <tr>
+          <th>Teacher</th>
+          <th>Module</th>
+          <th>File Type</th>
+          <th>Submission Date</th>
+          <th>Score</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="assignment in assignments" :key="assignment.id">
+          <td>
+            <div class="font-15">{{ assignment.teacher }}</div>
+          </td>
+          <td>
+            <strong>{{ assignment.module }}</strong>
+          </td>
+          <td>
+            <strong>{{ assignment.file_type }}</strong>
+          </td>
+          <td>
+            <strong>{{ assignment.submitted_on }}</strong>
+          </td>
+          <td>
+            <strong>{{ assignment.score }}</strong>
+          </td>
+          <td>
+            <strong>{{ assignment.status }}</strong>
+          </td>
+          <td>
+            <button
+              type="button"
+              class="btn btn-icon btn-sm"
+              @click="openFile(assignment)"
+              title="Open File"
+            >
+              <i class="fa fa-play text-success"></i>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <hr />
+    <paginate
+      :pagination="records"
+      @paginate="assignments"
+      :offset="4"
+      :emitTo="`assignment_record_paginate`"
+      class="mb-1 ml-2"
+      v-if="assignments.length"
+    />
+  </span>
+
   <loader v-else />
 </template>
 <script>
@@ -65,7 +76,7 @@ export default {
     };
   },
   components: {
-    Loader
+    Loader,
   },
   computed: {
     ...mapGetters({
@@ -88,7 +99,9 @@ export default {
   methods: {
     getAssignments() {
       this.$axios
-        .get(`/records/students/${this.student.id}/assignments?page=${this.records.current_page}`)
+        .get(
+          `/records/students/${this.student.id}/assignments?page=${this.records.current_page}`
+        )
         .then((res) => {
           this.$store.commit("records/SET_DATA", res.data.data);
           this.$store.commit("records/SET_TYPE", "assignments");

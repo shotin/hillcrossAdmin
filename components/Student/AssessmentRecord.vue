@@ -1,52 +1,62 @@
 <template>
-  <table
-    class="table responsive table-hover table-vcenter table-striped mb-0"
-    v-if="type === 'assessments'"
-  >
-    <thead>
-      <tr>
-        <th>Teacher</th>
-        <th>Module</th>
-        <th>File Type</th>
-        <th>Submission Date</th>
-        <th>Score</th>
-        <th>Status</th>
-        <th>Action</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr v-for="assessment in assessments" :key="assessment.id">
-        <td>
-          <div class="font-15">{{ assessment.teacher }}</div>
-        </td>
-        <td>
-          <strong>{{ assessment.module }}</strong>
-        </td>
-        <td>
-          <strong>{{ assessment.file_type }}</strong>
-        </td>
-        <td>
-          <strong>{{ assessment.submitted_on }}</strong>
-        </td>
-        <td>
-          <strong>{{ assessment.score }}</strong>
-        </td>
-        <td>
-          <strong>{{ assessment.status }}</strong>
-        </td>
-        <td>
-          <button
-            type="button"
-            class="btn btn-icon btn-sm"
-            @click="openFile(assessment)"
-            title="Open File"
-          >
-            <i class="fa fa-play text-success"></i>
-          </button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <span v-if="type === 'assessments'">
+    <table
+      class="table responsive table-hover table-vcenter table-striped mb-0"
+    >
+      <thead>
+        <tr>
+          <th>Teacher</th>
+          <th>Module</th>
+          <th>File Type</th>
+          <th>Submission Date</th>
+          <th>Score</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="assessment in assessments" :key="assessment.id">
+          <td>
+            <div class="font-15">{{ assessment.teacher }}</div>
+          </td>
+          <td>
+            <strong>{{ assessment.module }}</strong>
+          </td>
+          <td>
+            <strong>{{ assessment.file_type }}</strong>
+          </td>
+          <td>
+            <strong>{{ assessment.submitted_on }}</strong>
+          </td>
+          <td>
+            <strong>{{ assessment.score }}</strong>
+          </td>
+          <td>
+            <strong>{{ assessment.status }}</strong>
+          </td>
+          <td>
+            <button
+              type="button"
+              class="btn btn-icon btn-sm"
+              @click="openFile(assessment)"
+              title="Open File"
+            >
+              <i class="fa fa-play text-success"></i>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <hr />
+    <paginate
+      :pagination="records"
+      @paginate="assessments"
+      :offset="4"
+      :emitTo="`assessnment_record_paginate`"
+      class="mb-1 ml-2"
+      v-if="assessments.length"
+    />
+  </span>
   <loader v-else />
 </template>
 <script>
@@ -75,7 +85,7 @@ export default {
   },
   mounted() {
     let self = this;
-    this.$root.$on("assignment_record_paginate", function(filter) {
+    this.$root.$on("assessnment_record_paginate", function(filter) {
       if (filter) {
         self.records.current_page = filter.current_page;
         self.$store.commit("app/SET_DATA", null);
