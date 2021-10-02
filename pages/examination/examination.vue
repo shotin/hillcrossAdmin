@@ -43,11 +43,7 @@
       <div class="container-fluid">
         <div class="tab-content">
           <div class="tab-pane" :class="[list ? 'active' : '']" id="pro-all">
-            <div class="card">
-              <div class="table-responsive">
-                <list-examination v-if="list" />
-              </div>
-            </div>
+            <list-examination v-if="list" />
           </div>
           <div
             class="tab-pane"

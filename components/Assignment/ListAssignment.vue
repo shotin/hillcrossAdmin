@@ -14,7 +14,7 @@
       <div class="col-lg-4 col-md-4 col-sm-6 mb-2">
         <div class="input-group">
           <multiselect
-            v-model="form.module"
+            v-model="selected_module"
             :options="moduleLists"
             track-by="type"
             label="name"
@@ -151,8 +151,9 @@ export default {
       form: {
         search: "",
         admin_status: "",
-        module: "",
+        module: ""
       },
+      selected_module: "",
       moduleLists: [],
       loading: false,
       disabled: false,
@@ -200,7 +201,11 @@ export default {
   methods: {
     getModules() {
       this.$axios
-        .get("/modules")
+        .get("/modules", {
+          params: {
+            fetch : "all"
+          }
+        })
         .then((res) => {
           this.moduleLists = res.data.data;
         })
@@ -222,11 +227,14 @@ export default {
       if (!this.form.search) {
         delete this.form.search;
       }
-      if (!this.form.module) {
+      if (!this.selected_module) {
         delete this.form.module;
       }
       if (!this.form.admin_status) {
         delete this.form.admin_status;
+      }
+      if(this.selected_module) {
+        this.form.module = this.selected_module.id
       }
       this.$store.commit("app/SET_DATA", null);
       this.$store.commit("app/SET_TYPE", "");
