@@ -1,46 +1,57 @@
 <template>
-  <table
-    class="table table-hover table-vcenter text-nowrap table-striped mb-0"
-    v-if="type === 'standards'"
-  >
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Module Count</th>
-        <th>Date Created</th>
-        <th>Action</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr v-for="standard in standards" :key="standard.id">
-        <td>
-          <div class="font-15">{{ standard.name }}</div>
-        </td>
-        <td>
-          <strong>{{ standard.module_count }}</strong>
-        </td>
-        <td>
-          <strong>{{ standard.date_created }}</strong>
-        </td>
-        <td>
-          <button
-            type="button"
-            class="btn btn-icon btn-sm"
-            @click="openEdit(standard)"
-            title="Edit"
-          >
-            <i class="fa fa-edit"></i>
-          </button>
-          <delete-item
-            :want_block="true"
-            :data="standard"
-            :url="`/standards/${standard.id}`"
-            :storeItem="`app/REMOVE_DATA`"
-          />
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <span v-if="type === 'standards'">
+    <table
+      class="table table-hover table-vcenter text-nowrap table-striped mb-0"
+    >
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Module Count</th>
+          <th>Date Created</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="standard in standards" :key="standard.id">
+          <td>
+            <div class="font-15">{{ standard.name }}</div>
+          </td>
+          <td>
+            <strong>{{ standard.module_count }}</strong>
+          </td>
+          <td>
+            <strong>{{ standard.date_created }}</strong>
+          </td>
+          <td>
+            <button
+              type="button"
+              class="btn btn-icon btn-sm"
+              @click="openEdit(standard)"
+              title="Edit"
+            >
+              <i class="fa fa-edit"></i>
+            </button>
+            <delete-item
+              :want_block="true"
+              :data="standard"
+              :url="`/standards/${standard.id}`"
+              :storeItem="`app/REMOVE_DATA`"
+            />
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <hr />
+    <paginate
+      :pagination="records"
+      @paginate="standards"
+      :offset="4"
+      :emitTo="`standard_data_paginate`"
+      class="mb-1 ml-2"
+      v-if="standards.length"
+    />
+  </span>
+
   <loader v-else />
 </template>
 <script>
@@ -90,7 +101,7 @@ export default {
   methods: {
     getStandards() {
       this.$axios
-        .get(`/standards?page=${this.records.current_page}`)
+        .get(`/standards/auth?page=${this.records.current_page}`)
         .then((res) => {
           this.$store.commit("app/SET_DATA", res.data.data);
           this.$store.commit("app/SET_TYPE", "standards");

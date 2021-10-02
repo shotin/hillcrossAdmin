@@ -7,74 +7,81 @@
     >
       Add New Session
     </button>
-    <table
-      class="table table-hover table-vcenter text-nowrap table-striped mb-0"
-      v-if="type === 'academic_sessions'"
-    >
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Start Date</th>
-          <th>End Date</th>
-          <th>Status</th>
-          <th>Date Created</th>
-          <th>Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="session in academic_sessions" :key="session.id">
-          <td>
-            <div class="font-15">{{ session.name }}</div>
-          </td>
-          <td>
-            <span>{{ session.start_date }}</span>
-          </td>
-          <td>
-            <span>{{ session.end_date }}</span>
-          </td>
-          <td>
-            {{ session.status }}
-          </td>
-          <td>
-            <strong>{{ session.date_created }}</strong>
-          </td>
-          <td>
-            <button
-              type="button"
-              class="btn btn-icon btn-sm"
-              @click="openEdit(session)"
-              title="Edit"
-            >
-              <i class="fa fa-edit"></i>
-            </button>
-            <activate-item
-              v-if="session.status !== 'Active'"
-              :want_block="false"
-              :data="session"
-              :url="
-                `/academic-sessions/${session.id}/activate`
-              "
-              :storeItem="`app/UPDATE_DATA`"
-            />
-            <end-item
-              v-if="session.status === 'Active'"
-              :want_block="false"
-              :data="session"
-              :url="
-                `/academic-sessions/${session.id}/end`
-              "
-              :storeItem="`app/UPDATE_DATA`"
-            />
-            <delete-item
-              :want_block="true"
-              :data="session"
-              :url="`/academic-sessions/${session.id}`"
-              :storeItem="`app/REMOVE_DATA`"
-            />
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <span v-if="type === 'academic_sessions'">
+      <table
+        class="table table-hover table-vcenter text-nowrap table-striped mb-0"
+      >
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Status</th>
+            <th>Date Created</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="session in academic_sessions" :key="session.id">
+            <td>
+              <div class="font-15">{{ session.name }}</div>
+            </td>
+            <td>
+              <span>{{ session.start_date }}</span>
+            </td>
+            <td>
+              <span>{{ session.end_date }}</span>
+            </td>
+            <td>
+              {{ session.status }}
+            </td>
+            <td>
+              <strong>{{ session.date_created }}</strong>
+            </td>
+            <td>
+              <button
+                type="button"
+                class="btn btn-icon btn-sm"
+                @click="openEdit(session)"
+                title="Edit"
+              >
+                <i class="fa fa-edit"></i>
+              </button>
+              <activate-item
+                v-if="session.status !== 'Active'"
+                :want_block="false"
+                :data="session"
+                :url="`/academic-sessions/${session.id}/activate`"
+                :storeItem="`app/UPDATE_DATA`"
+              />
+              <end-item
+                v-if="session.status === 'Active'"
+                :want_block="false"
+                :data="session"
+                :url="`/academic-sessions/${session.id}/end`"
+                :storeItem="`app/UPDATE_DATA`"
+              />
+              <delete-item
+                :want_block="true"
+                :data="session"
+                :url="`/academic-sessions/${session.id}`"
+                :storeItem="`app/REMOVE_DATA`"
+              />
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <hr />
+      <paginate
+        :pagination="records"
+        @paginate="academic_sessions"
+        :offset="4"
+        :emitTo="`academic_session_paginate`"
+        class="mb-1 ml-2"
+        v-if="academic_sessions.length"
+      />
+    </span>
+
     <loader v-else />
     <add-academic-session-modal style="display: none;" />
     <edit-academic-session
@@ -134,7 +141,7 @@ export default {
   methods: {
     getAcademicSession() {
       this.$axios
-        .get(`/academic-sessions?page=${this.records.current_page}`)
+        .get(`/academic-sessions/auth?page=${this.records.current_page}`)
         .then((res) => {
           this.$store.commit("app/SET_DATA", res.data.data);
           this.$store.commit("app/SET_TYPE", "academic_sessions");

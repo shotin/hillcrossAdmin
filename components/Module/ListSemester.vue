@@ -1,46 +1,56 @@
 <template>
-  <table
-    class="table table-hover table-vcenter text-nowrap table-striped mb-0"
-    v-if="type === 'semesters'"
-  >
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Module Count</th>
-        <th>Date Created</th>
-        <th>Action</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr v-for="semester in semesters" :key="semester.id">
-        <td>
-          <div class="font-15">{{ semester.name }}</div>
-        </td>
-        <td>
-          <strong>{{ semester.module_count }}</strong>
-        </td>
-        <td>
-          <strong>{{ semester.date_created }}</strong>
-        </td>
-        <td>
-          <button
-            type="button"
-            class="btn btn-icon btn-sm"
-            @click="openEdit(semester)"
-            title="Edit"
-          >
-            <i class="fa fa-edit"></i>
-          </button>
-          <delete-item
-            :want_block="true"
-            :data="semester"
-            :url="`/semesters/${semester.id}`"
-            :storeItem="`app/REMOVE_DATA`"
-          />
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <span v-if="type === 'semesters'">
+    <table
+      class="table table-hover table-vcenter text-nowrap table-striped mb-0"
+    >
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Module Count</th>
+          <th>Date Created</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="semester in semesters" :key="semester.id">
+          <td>
+            <div class="font-15">{{ semester.name }}</div>
+          </td>
+          <td>
+            <strong>{{ semester.module_count }}</strong>
+          </td>
+          <td>
+            <strong>{{ semester.date_created }}</strong>
+          </td>
+          <td>
+            <button
+              type="button"
+              class="btn btn-icon btn-sm"
+              @click="openEdit(semester)"
+              title="Edit"
+            >
+              <i class="fa fa-edit"></i>
+            </button>
+            <delete-item
+              :want_block="true"
+              :data="semester"
+              :url="`/semesters/${semester.id}`"
+              :storeItem="`app/REMOVE_DATA`"
+            />
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <hr />
+    <paginate
+      :pagination="records"
+      @paginate="semesters"
+      :offset="4"
+      :emitTo="`semester_paginate`"
+      class="mb-1 ml-2"
+      v-if="semesters.length"
+    />
+  </span>
   <loader v-else />
 </template>
 <script>
@@ -90,7 +100,7 @@ export default {
   methods: {
     getSemesters() {
       this.$axios
-        .get(`/semesters?page=${this.records.current_page}`)
+        .get(`/semesters/auth?page=${this.records.current_page}`)
         .then((res) => {
           this.$store.commit("app/SET_DATA", res.data.data);
           this.$store.commit("app/SET_TYPE", "semesters");

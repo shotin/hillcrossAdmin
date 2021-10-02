@@ -7,98 +7,109 @@
     >
       Add New Calendar
     </button>
-    <table
-      class="table table-hover table-responsive table-vcenter text-nowrap table-striped mb-0"
-      v-if="type === 'academic_calendars'"
-    >
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Academic Session</th>
-          <th>Academic Semester</th>
-          <th>Start Date</th>
-          <th>End Date</th>
-          <th>Course Reg Start Date</th>
-          <th>Course Reg End Date</th>
-          <th>Status</th>
-          <th>Date Created</th>
-          <th>Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="calendar in academic_calendars" :key="calendar.id">
-          <td>
-            <div class="font-15">{{ calendar.name }}</div>
-          </td>
-          <td>
-            <span>{{ calendar.session.name }}</span>
-          </td>
-          <td>
-            <span>{{ calendar.semester.name }}</span>
-          </td>
-          <td>
-            <span>{{ calendar.start_date }}</span>
-          </td>
-          <td>
-            <span>{{ calendar.end_date }}</span>
-          </td>
-          <td>
-            <span>{{ calendar.course_registration_start_date }}</span>
-          </td>
-          <td>
-            <span>{{ calendar.course_registration_end_date }}</span>
-          </td>
-          <td>
-            {{ calendar.status }}
-          </td>
-          <td>
-            <strong>{{ calendar.date_created }}</strong>
-          </td>
-          <td>
-            <button
-              type="button"
-              class="btn btn-icon btn-sm"
-              @click="showCalendar(calendar)"
-              title="Details"
-            >
-              <i class="fa fa-eye text-success"></i>
-            </button>
-            <activate-item
-              v-if="calendar.status !== 'Active'"
-              :want_block="false"
-              :data="calendar"
-              :url="
-                `/academic-sessions/${calendar.session.id}/academic-calendar/${calendar.id}/activate`
-              "
-              :storeItem="`app/UPDATE_DATA`"
-            />
-            <end-item
-              v-if="calendar.status === 'Active'"
-              :want_block="false"
-              :data="calendar"
-              :url="
-                `/academic-sessions/${calendar.session.id}/academic-calendar/${calendar.id}/end`
-              "
-              :storeItem="`app/UPDATE_DATA`"
-            />
-            <button
-              type="button"
-              class="btn btn-icon btn-sm"
-              @click="openEdit(calendar)"
-              title="Edit"
-            >
-              <i class="fa fa-edit"></i>
-            </button>
-            <delete-item
-              :want_block="true"
-              :data="calendar"
-              :url="`/academic-calendar/${calendar.id}`"
-              :storeItem="`app/REMOVE_DATA`"
-            />
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <span v-if="type === 'academic_calendars'">
+      <table
+        class="table table-hover table-responsive table-vcenter text-nowrap table-striped mb-0"
+      >
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Academic Session</th>
+            <th>Academic Semester</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Course Reg Start Date</th>
+            <th>Course Reg End Date</th>
+            <th>Status</th>
+            <th>Date Created</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="calendar in academic_calendars" :key="calendar.id">
+            <td>
+              <div class="font-15">{{ calendar.name }}</div>
+            </td>
+            <td>
+              <span>{{ calendar.session.name }}</span>
+            </td>
+            <td>
+              <span>{{ calendar.semester.name }}</span>
+            </td>
+            <td>
+              <span>{{ calendar.start_date }}</span>
+            </td>
+            <td>
+              <span>{{ calendar.end_date }}</span>
+            </td>
+            <td>
+              <span>{{ calendar.course_registration_start_date }}</span>
+            </td>
+            <td>
+              <span>{{ calendar.course_registration_end_date }}</span>
+            </td>
+            <td>
+              {{ calendar.status }}
+            </td>
+            <td>
+              <strong>{{ calendar.date_created }}</strong>
+            </td>
+            <td>
+              <button
+                type="button"
+                class="btn btn-icon btn-sm"
+                @click="showCalendar(calendar)"
+                title="Details"
+              >
+                <i class="fa fa-eye text-success"></i>
+              </button>
+              <activate-item
+                v-if="calendar.status !== 'Active'"
+                :want_block="false"
+                :data="calendar"
+                :url="
+                  `/academic-sessions/${calendar.session.id}/academic-calendar/${calendar.id}/activate`
+                "
+                :storeItem="`app/UPDATE_DATA`"
+              />
+              <end-item
+                v-if="calendar.status === 'Active'"
+                :want_block="false"
+                :data="calendar"
+                :url="
+                  `/academic-sessions/${calendar.session.id}/academic-calendar/${calendar.id}/end`
+                "
+                :storeItem="`app/UPDATE_DATA`"
+              />
+              <button
+                type="button"
+                class="btn btn-icon btn-sm"
+                @click="openEdit(calendar)"
+                title="Edit"
+              >
+                <i class="fa fa-edit"></i>
+              </button>
+              <delete-item
+                :want_block="true"
+                :data="calendar"
+                :url="`/academic-calendar/${calendar.id}`"
+                :storeItem="`app/REMOVE_DATA`"
+              />
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <hr />
+      <paginate
+        :pagination="records"
+        @paginate="academic_calendars"
+        :offset="4"
+        :emitTo="`academic_calendar_paginate`"
+        class="mb-1 ml-2"
+        v-if="academic_calendars.length"
+      />
+    </span>
+
     <loader v-else />
     <add-academic-calendar
       :academic_semesters="select.semesters"
@@ -133,7 +144,7 @@ export default {
     AddAcademicCalendar,
     EditAcademicCalendar,
     ActivateItem,
-    EndItem
+    EndItem,
   },
   computed: {
     ...mapGetters({
@@ -179,7 +190,7 @@ export default {
   methods: {
     getAcademicCalendar() {
       this.$axios
-        .get(`/academic-calenders?page=${this.records.current_page}`)
+        .get(`/academic-calenders/auth?page=${this.records.current_page}`)
         .then((res) => {
           this.$store.commit("app/SET_DATA", res.data.data);
           this.$store.commit("app/SET_TYPE", "academic_calendars");
