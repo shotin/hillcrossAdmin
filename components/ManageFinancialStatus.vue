@@ -6,7 +6,7 @@
     @click="createSage()"
     title="Create Sage Account"
   >
-    Create Sage Account
+    {{ financial_status }} Student
   </a>
 </template>
 <script>
@@ -30,31 +30,38 @@ export default {
     want_block: {
       required: false,
     },
+    financial_status: {
+      type: String,
+      required: true,
+    },
   },
   methods: {
     createSage() {
       Swal.fire({
-        title: `Are you sure you want to create a sage account for "${
-          this.data.name ? this.data.name : "Item"
-        }?"`,
-        text: "This student will have his/her details moved to Sage",
+        title: `Are you sure you want to ${
+          this.financial_status
+        } this student: "${this.data.name ? this.data.name : "Item"}?"`,
+        text: "You won't be able to revert this!",
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#44c1c9",
         showLoaderOnConfirm: true,
-        confirmButtonText: "Yes, create it!",
+        confirmButtonText: `Yes, ${this.financial_status}!`,
         cancelButtonText: "No, cancel!",
         preConfirm: () => {
           return this.$axios
             .get(this.url)
             .then((res) => {
-              this.$store.commit(this.storeItem, this.data);
-              notify("Student record created on sage successfully", "success");
+              this.$store.commit(this.storeItem, res.data.data);
+              notify(
+                `Student financial record ${this.financial_status} successfuly`,
+                "success"
+              );
             })
             .catch((error) => {
               Swal.showValidationMessage(
-                `Request failed: Sage account cannot be created at this time, please contact admin`
+                `Request failed: Record cannot be ${this.financial_status} at this time, contact admin`
               );
             });
         },

@@ -11,7 +11,7 @@
     />
     <div class="table-responsive" v-if="type === pageType">
       <table
-        class="table table-hover table-vcenter text-nowrap table-striped mb-0"
+        class="table table-hover table-vcenter text-nowrap table-striped mb-2"
       >
         <thead>
           <tr>
@@ -21,6 +21,7 @@
             <th>Registration ID</th>
             <th>School</th>
             <th>Qualification</th>
+            <th>Sage Account Status</th>
             <th>Financial Status</th>
             <th>Admission Status</th>
             <th>Status</th>
@@ -63,6 +64,9 @@
               <strong>{{ student.profile.qualification.name }}</strong>
             </td>
             <td>
+              <strong>{{ student.sage_status }}</strong>
+            </td>
+            <td>
               <span
                 class="tag tag-success"
                 v-if="student.financial_status === 'Cleared'"
@@ -79,43 +83,74 @@
               <span class="tag tag-success">{{ student.status_word }}</span>
             </td>
             <td>
-              <button
-                type="button"
-                class="btn btn-icon btn-sm"
-                @click="openShow(student)"
-                title="View"
-                v-if="show"
-              >
-                <i class="fa fa-eye"></i>
-              </button>
-              <button
-                type="button"
-                class="btn btn-icon btn-sm"
-                @click="openEdit()"
-                title="Edit"
-                v-if="edit"
-              >
-                <i class="fa fa-edit"></i>
-              </button>
-              <create-sage
-                v-if="pageType === 'admitted_students'"
-                :want_block="true"
-                :data="student"
-                :url="`/accounts/students/${student.id}/create-sage`"
-                :storeItem="`app/UPDATE_DATA`"
-              />
-              <delete-sage
-                v-if="pageType === 'admitted_students'"
-                :want_block="true"
-                :data="student"
-                :url="`/accounts/students/${student.id}/delete-sage`"
-                :storeItem="`app/UPDATE_DATA`"
-              />
+              <div class="btn-group" role="group">
+                <button
+                  id="btnGroupDrop1"
+                  type="button"
+                  class="btn btn-icon dropdown-toggle btn-sm"
+                  data-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                ></button>
+                <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                  <a
+                    class="dropdown-item btn-block"
+                    type="button"
+                    href="#"
+                    @click="openShow(student)"
+                  >
+                    Show Student
+                  </a>
+                  <a
+                    class="dropdown-item"
+                    type="button"
+                    href="#"
+                    @click="openEdit(student)"
+                  >
+                    Edit Student
+                  </a>
+                  <create-sage
+                    v-if="
+                      pageType === 'admitted_students' &&
+                        student.sage_status === 'Not Created'
+                    "
+                    :want_block="true"
+                    :data="student"
+                    :url="`/accounts/students/${student.id}/create-sage`"
+                    :storeItem="`app/UPDATE_DATA`"
+                  />
+                  <delete-sage
+                    v-if="
+                      pageType === 'admitted_students' &&
+                        student.sage_status === 'Created'
+                    "
+                    :want_block="true"
+                    :data="student"
+                    :url="`/accounts/students/${student.id}/delete-sage`"
+                    :storeItem="`app/UPDATE_DATA`"
+                  />
+                  <manage-financial-status
+                    v-if="pageType === 'admitted_students'"
+                    :want_block="true"
+                    :data="student"
+                    :url="
+                      student.financial_status === 'Cleared'
+                        ? `/admin/students/${student.id}/financial/disable`
+                        : `/admin/students/${student.id}/financial/clear`
+                    "
+                    :storeItem="`app/UPDATE_DATA`"
+                    :financial_status="
+                      student.financial_status === 'Cleared'
+                        ? 'Disable'
+                        : 'Clear'
+                    "
+                  />
+                </div>
+              </div>
             </td>
           </tr>
         </tbody>
       </table>
-      <hr />
       <paginate
         :pagination="records"
         @paginate="students"
@@ -136,6 +171,7 @@ import FilterStudent from "../FilterStudent.vue";
 import CreateSage from "@/components/CreateSage";
 import DeleteSage from "@/components/DeleteSage";
 import Paginate from "../Paginate.vue";
+import ManageFinancialStatus from "../ManageFinancialStatus.vue";
 export default {
   props: {
     status: {
@@ -171,7 +207,8 @@ export default {
     FilterStudent,
     Paginate,
     CreateSage,
-    DeleteSage
+    DeleteSage,
+    ManageFinancialStatus,
   },
   computed: {
     ...mapGetters({

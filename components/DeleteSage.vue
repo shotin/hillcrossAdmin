@@ -1,12 +1,13 @@
 <template>
-  <button
+  <a
     type="button"
-    class="btn btn-icon btn-sm"
+    href="#"
+    class="dropdown-item"
     @click="deleteSage()"
-    title="Create Sage Account"
+    title="Delete Account"
   >
-    <i class="fa fa-trash-alt text-danger"></i>
-  </button>
+    Delete Sage Account
+  </a>
 </template>
 <script>
 import Swal from "sweetalert2";
