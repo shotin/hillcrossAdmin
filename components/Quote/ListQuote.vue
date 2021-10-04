@@ -12,7 +12,7 @@
     />
     <div class="table-responsive" v-if="type === pageType">
       <table
-        class="table table-hover table-vcenter text-nowrap table-striped mb-0"
+        class="table table-hover table-vcenter text-nowrap table-striped mb-3"
       >
         <thead>
           <tr>
@@ -114,7 +114,6 @@
           </tr>
         </tbody>
       </table>
-      <hr />
       <paginate
         :pagination="records"
         @paginate="quotes"
@@ -125,6 +124,8 @@
       />
     </div>
     <loader v-else />
+    <edit-quote style="display: none;" />
+    <clone-quote style="display: none;" />
   </div>
 </template>
 <script>
@@ -133,6 +134,8 @@ import Loader from "../Loader.vue";
 import DeleteItem from "@/components/Delete";
 import FilterQuote from "@/components/Quote/FilterQuote";
 import Paginate from "../Paginate.vue";
+import EditQuote from "../Modals/EditQuote.vue";
+import CloneQuote from "../Modals/CloneQuote.vue";
 export default {
   props: {
     status: {
@@ -167,6 +170,8 @@ export default {
     DeleteItem,
     FilterQuote,
     Paginate,
+    EditQuote,
+    CloneQuote,
   },
   computed: {
     ...mapGetters({
@@ -181,7 +186,7 @@ export default {
     quote_data: {
       handler(newVal, oldVal) {
         if (newVal && oldVal && newVal.timestamp !== oldVal.timestamp) {
-          this.$root.$emit("edit-quote");
+          this.$bvModal.show("edit-quote");
         }
       },
       immediate: true,
@@ -190,7 +195,7 @@ export default {
     clone_quote: {
       handler(newVal, oldVal) {
         if (newVal && oldVal && newVal.timestamp !== oldVal.timestamp) {
-          this.$root.$emit("clone-quote");
+          this.$bvModal.show("clone-quote");
         }
       },
       immediate: true,

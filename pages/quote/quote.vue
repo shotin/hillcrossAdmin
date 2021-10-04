@@ -32,7 +32,7 @@
                 data-toggle="tab"
                 @click.prevent="switchTab('add')"
                 href="#pro-add"
-                >{{incomeText}}</a
+                >{{ incomeText }}</a
               >
             </li>
             <li class="nav-item" v-if="manage">
@@ -106,14 +106,6 @@ export default {
     let self = this;
     self.$root.$on("quote-details", function(val) {
       self.switchTab("manage");
-    });
-    self.$root.$on("edit-quote", function(val) {
-      self.incomeText = "Edit Quote";
-      self.switchTab("add");
-    });
-    self.$root.$on("clone-quote", function(val) {
-      self.incomeText = "Clone Quote";
-      self.switchTab("add");
     });
   },
   data() {

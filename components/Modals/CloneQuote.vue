@@ -1,10 +1,15 @@
 <template>
-  <div class="row clearfix">
-    <div class="col-lg-12 col-md-12 col-sm-12">
-      <div class="card">
-        <div class="card-header">
-          <h3 class="card-title">Quote Information</h3>
-        </div>
+  <b-modal
+    id="clone-quote"
+    hide-footer
+    size="lg"
+    no-close-on-esc
+    no-close-on-backdrop
+    body-class="px-4"
+    title="Clone Quote"
+  >
+    <div class="row clearfix">
+      <div class="col-lg-12 col-md-12 col-sm-12">
         <form @submit.prevent="processQuote()">
           <div class="card-body">
             <div class="row clearfix">
@@ -83,6 +88,7 @@
                   <label>Amount</label>
                   <input
                     type="number"
+                    disabled
                     required
                     v-model="form.amount"
                     class="form-control"
@@ -219,7 +225,7 @@
         </form>
       </div>
     </div>
-  </div>
+  </b-modal>
 </template>
 <script>
 import { mapGetters, mapState } from "vuex";
@@ -235,9 +241,8 @@ export default {
       loadingCancel: false,
       disabledCancel: false,
       records: this.getRecords(),
-      buttonName: "Submit",
+      buttonName: "Clone",
       selectQualifications: [],
-      isUpdate: false
     };
   },
   components: {
@@ -245,24 +250,44 @@ export default {
   },
   computed: {
     ...mapGetters({
-      account_data: "app/pageViewData",
+      quote_data: "app/pageCloneData",
       select: "select/select",
     }),
   },
   watch: {
-    "form.school": {
-      handler(newVal, oldVal) {
-        if (newVal !== oldVal) {
-          this.getQualification(newVal);
-        }
+    quote_data: {
+      handler(newVal) {
+        this.form.student_name = newVal.student_name;
+        this.form.student_id = newVal.student_id;
+        this.form.saqa_id = newVal.saqa_id;
+        this.form.study_mode = newVal.study_mode;
+        this.form.title = newVal.title;
+        this.form.amount = newVal.amount;
+        this.form.academic_calender = newVal.calender;
+        _.map(newVal.breakdowns, (value) => {
+          this.form.breakdowns.push({
+            title: value.title,
+            amount: value.amount,
+          });
+        });
       },
     },
-  },
-  mounted() {
-    let self = this
-    if (!this.form.breakdowns.length) {
-      self.addRow();
-    }
+    "form.school": {
+      handler(newVal) {
+        this.getQualification(newVal);
+      },
+      immediate: true,
+      deep: true,
+    },
+    "form.breakdowns": {
+      handler(value) {
+        this.form.amount = _.sumBy(value, function(o) {
+          return parseInt(o.amount);
+        });
+      },
+      immediate: true,
+      deep: true,
+    },
   },
   methods: {
     stopLoader() {
@@ -290,17 +315,9 @@ export default {
     processQuote() {
       this.loading = true;
       this.disabled = true;
-      let sumBreakdown = _.sumBy(this.form.breakdowns, function(o) {
-        return parseInt(o.amount);
-      });
-      if (sumBreakdown > parseInt(this.form.amount)) {
-        notify("Amount breakdown cannot be more than the bill amount");
-        this.stopLoader();
-        return;
-      }
       this.form.qualification = this.form.qualification.id;
       this.form.academic_calender = this.form.academic_calender.id;
-      this.storeRequest(this.form);
+      this.cloneRequest(this.form);
     },
     getQualification(school) {
       if (school && school.id) {
@@ -309,15 +326,15 @@ export default {
         });
       }
     },
-    async storeRequest(form) {
+    async cloneRequest(form) {
       await this.$axios
-        .post("/quotes", form)
+        .post(`/quotes/${this.quote_data.id}/clone`, form)
         .then((res) => {
-          notify("Quote created successfully", "success");
+          notify("Quote cloned successfully", "success");
+          this.$store.commit("app/ADD_DATA", res.data.data);
           this.stopLoader();
           this.form = this.getForm();
-          this.form.qualifications = [];
-          this.$root.$emit("quotes", true);
+          this.$bvModal.hide("clone-quote");
         })
         .catch((err) => {
           handleError(err);
