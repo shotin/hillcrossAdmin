@@ -124,11 +124,11 @@
                     ><i class="fa fa-book"></i>Academic Record
                   </nuxt-link>
                 </li>
-                <!-- <li>
-                  <a class="nav-link" href="#"
-                    ><i class="fa fa-house-user"></i>Accommodation
-                  </a>
-                </li> -->
+                <li>
+                  <nuxt-link class="nav-link" to="/students/applicant"
+                    ><i class="fa fa-house-user"></i>Applicant List
+                  </nuxt-link>
+                </li>
                 <li>
                   <nuxt-link class="nav-link" to="/students/admitted">
                     <i class="fa fa-user-check"></i>Admitted List

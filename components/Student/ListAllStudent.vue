@@ -145,6 +145,38 @@
                         : 'Clear'
                     "
                   />
+                  <archive-student
+                    v-if="pageType === 'admitted_students'"
+                    :want_block="true"
+                    :data="student"
+                    :url="`/students/${student.id}/archive`"
+                    :storeItem="`app/UPDATE_DATA`"
+                    :emitTo="emitTo"
+                  />
+                  <grant-admission
+                    v-if="
+                      student.admission_status === 'Registered' &&
+                        student.next_stage === 'end'
+                    "
+                    :want_block="true"
+                    :data="student"
+                    :url="`/students/${student.id}/grant-admission`"
+                    :storeItem="`app/UPDATE_DATA`"
+                    :emitTo="emitTo"
+                  />
+                  <print-details
+                    :want_block="true"
+                    :data="student"
+                    :url="`/students/${student.id}/details/print`"
+                    :storeItem="`app/UPDATE_DATA`"
+                  />
+                  <admission-letter
+                    v-if="pageType === 'admitted_students' && student.admission_status === 'Admitted'"
+                    :want_block="true"
+                    :data="student"
+                    :url="`/students/${student.id}/admission-letter`"
+                    :storeItem="`app/UPDATE_DATA`"
+                  />
                 </div>
               </div>
             </td>
@@ -172,6 +204,10 @@ import CreateSage from "@/components/CreateSage";
 import DeleteSage from "@/components/DeleteSage";
 import Paginate from "../Paginate.vue";
 import ManageFinancialStatus from "../ManageFinancialStatus.vue";
+import ArchiveStudent from "../ArchiveStudent.vue";
+import GrantAdmission from "../GrantAdmission.vue";
+import PrintDetails from '../PrintDetails.vue';
+import AdmissionLetter from '../AdmissionLetter.vue';
 export default {
   props: {
     status: {
@@ -209,6 +245,10 @@ export default {
     CreateSage,
     DeleteSage,
     ManageFinancialStatus,
+    ArchiveStudent,
+    GrantAdmission,
+    PrintDetails,
+    AdmissionLetter,
   },
   computed: {
     ...mapGetters({
