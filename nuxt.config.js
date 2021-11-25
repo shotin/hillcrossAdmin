@@ -86,7 +86,10 @@ export default {
         // $: 'jquery',
         // jQuery: 'jquery'
       })
-    ]
+    ],
+    babel: {
+      compact: true
+    }
   },
 
   module: {
