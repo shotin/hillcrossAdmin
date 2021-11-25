@@ -58,10 +58,10 @@
               <strong>{{ student.student_id }}</strong>
             </td>
             <td>
-              <strong>{{ student.profile.school.name }}</strong>
+              <strong>{{ student.profile.school ? student.profile.school.name : '' }}</strong>
             </td>
             <td>
-              <strong>{{ student.profile.qualification.name }}</strong>
+              <strong>{{ student.profile.qualification ? student.profile.qualification.name : '' }}</strong>
             </td>
             <td>
               <strong>{{ student.sage_status }}</strong>
@@ -104,7 +104,6 @@
                   <a
                     class="dropdown-item"
                     type="button"
-                    href="#"
                     @click="openEdit(student)"
                   >
                     Edit Student
@@ -316,9 +315,7 @@ export default {
       };
     },
     openEdit(data) {
-      const time = new Date();
-      const update = { ...data, timestamp: time.getTime() };
-      this.$store.commit("app/SET_VIEW_DATA", update);
+      this.$router.push(`/students/${data.student_id}/edit`)
     },
     openShow(data) {
       const time = new Date();

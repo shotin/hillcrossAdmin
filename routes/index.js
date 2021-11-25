@@ -125,6 +125,11 @@ module.exports = [
     component: "./pages/student/academic_record.vue",
   },
   {
+    name: "edit-student",
+    path: "/students/:id/edit",
+    component: "./pages/student/edit_student.vue",
+  },
+  {
     name: "income",
     path: "/accounts/income",
     component: "./pages/account/income.vue",

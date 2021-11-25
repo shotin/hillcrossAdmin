@@ -59,7 +59,8 @@ export default {
     { src: "@/plugins/sweetalert", ssr: false },
     { src: "@/plugins/bootstrap-vue", ssr: false },
     { src: "@/plugins/bootstrap-vue", ssr: false },
-    { src: "@/plugins/moment", ssr: false }
+    { src: "@/plugins/moment", ssr: false },
+    { src: "@/plugins/phone-number", ssr: false }
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
