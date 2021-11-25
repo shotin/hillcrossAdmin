@@ -15,7 +15,7 @@ RUN yarn install
 
 # build necessary, even if no static files are needed,
 # since it builds the server as well
-RUN yarn run build 
+RUN add --max_old_space_size=4096 in yarn run build 
 
 # expose 6000 on container
 EXPOSE 6000
