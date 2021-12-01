@@ -55,7 +55,7 @@
               {{ student.student_id }}
             </td>
             <td>
-              <strong>{{ student.student_id }}</strong>
+              <strong>{{ student.registration_id }}</strong>
             </td>
             <td>
               <strong>{{ student.profile.school ? student.profile.school.name : '' }}</strong>
