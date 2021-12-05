@@ -32,7 +32,11 @@ export default {
   },
   methods: {
     viewAdmissionLetter() {
-      window.open(data.admission_letter_url, "_blank");
+      if(this.data.admission_letter_url !== null) {
+        window.open(this.data.admission_letter_url, "_blank");
+      }else {
+        notify('info', 'Please regenerate admission letter')
+      }
     },
   },
 };
