@@ -353,10 +353,9 @@
               </p>
               <div
                 class="text-left side-by-side-button w-200"
-                v-if="user.next_stage != 'end'"
               >
-                <nuxt-link to="/contact-details" class="btn btn-default"
-                  >Back</nuxt-link
+                <button type="button" @click="goBack()" class="btn btn-primary"
+                  >Back</button
                 >
                 <Button
                   :button_class="'btn btn-outline-success'"
@@ -600,12 +599,12 @@ export default {
         delete this.form.cooperate_telephone;
       }
       await this.$axios
-        .post("/students/sponsor-information", this.form)
+        .post(`/admin/students/${this.user.id}/sponsor-information`, this.form)
         .then(res => {
           this.stopLoader();
           notify("Sponsor information updated successfully", "success");
-          this.$store.commit("auth/UPDATE_USER_INFO", res.data.data);
-          this.$router.push("/education-history");
+          this.$store.commit("student/UPDATE_USER_INFO", res.data.data);
+          this.$root.$emit('update_tab', 'education_history')
         })
         .catch(err => {
           console.log(err);
@@ -616,6 +615,9 @@ export default {
     stopLoader() {
       this.loading = false;
       this.disabled = false;
+    },
+    goBack() {
+      this.$root.$emit('update_tab', 'contact_details')
     },
     getForm() {
       return {

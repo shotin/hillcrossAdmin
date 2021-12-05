@@ -69,7 +69,17 @@
         </select>
       </div>
     </div>
-    <div class="col-lg-1 col-md-4 col-sm-6">
+    <div class="col-lg-4 col-md-4 col-sm-6" v-if="hasRegistrationStatus">
+      <div class="input-group">
+        <select name="" id="" v-model="form.registration_status" class="form-control">
+          <option value="" disabled>Select Registration Status</option>
+          <option value="all">All</option>
+          <option value="complete">Complete</option>
+          <option value="incomplete">Incomplete</option>
+        </select>
+      </div>
+    </div>
+    <div class="col-lg-1 col-md-4 col-sm-6 mt-2">
       <Button
         :button_class="'btn btn-sm btn-primary btn-block'"
         :disabled="disabled"
@@ -110,6 +120,10 @@ export default {
     defaultStatus: {
       type: String,
       default: 'All'
+    },
+    hasRegistrationStatus: {
+      type : Boolean,
+      default : false
     }
   },
   computed: {
@@ -146,7 +160,8 @@ export default {
         qualification: "",
         financial_status: "",
         status: "",
-        admission_status: this.defaultStatus
+        admission_status: this.defaultStatus,
+        registration_status: ""
       };
     },
     runFilter() {
@@ -166,6 +181,9 @@ export default {
       }
       if (!this.form.search) {
         delete this.form.search;
+      }
+      if (!this.form.registration_status) {
+        delete this.form.registration_status;
       }
       if (this.form.school) {
         this.form.school = this.form.school.id;

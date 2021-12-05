@@ -48,7 +48,7 @@
                   :disabled="disabled"
                   :button_type="'button'"
                   :loading="loading"
-                  :value="'Cancel'"
+                  :value="'Submit'"
                   @click.native="processChangePassword()"
                 />
               </div>

@@ -6,7 +6,7 @@
           <ul class="nav nav-tabs page-header-tab">
             <li class="nav-item">
               <a
-                class="nav-link active"
+                class="nav-link"
                 data-toggle="tab"
                 href="#personal-details"
                 @click.prevent="switchTab('personal_details')"
@@ -113,12 +113,16 @@
             class="tab-pane active"
             :class="[qualification_information ? 'active' : '']"
             id="qualification-information"
-          ></div>
+          >
+            <qualification v-if="user && qualification_information"/>
+          </div>
           <div
             class="tab-pane active"
             :class="[document_upload ? 'active' : '']"
             id="document-upload"
-          ></div>
+          >
+            <document v-if="user && document_upload" />
+          </div>
           <div
             class="tab-pane active"
             :class="[change_password ? 'active' : '']"
@@ -135,11 +139,13 @@
 import { mapGetters } from "vuex";
 import ChangePassword from "../../components/Student/Edit/ChangePassword.vue";
 import ContactDetails from '../../components/Student/Edit/ContactDetails.vue';
+import Document from '../../components/Student/Edit/Document.vue';
 import EducationHistory from '../../components/Student/Edit/EducationHistory.vue';
 import PersonalDetails from "../../components/Student/Edit/PersonalDetails.vue";
+import Qualification from '../../components/Student/Edit/Qualification.vue';
 import SponsorInformation from '../../components/Student/Edit/SponsorInformation.vue';
 export default {
-  components: { ChangePassword, PersonalDetails, ContactDetails, SponsorInformation, EducationHistory },
+  components: { ChangePassword, PersonalDetails, ContactDetails, SponsorInformation, EducationHistory, Qualification, Document },
   computed: {
     ...mapGetters({
       select: "select/select",
@@ -149,6 +155,12 @@ export default {
   mounted() {
     this.getStudent();
     this.switchTab("personal_details");
+    let self = this;
+    this.$root.$on('update_tab', function(val) {
+      if(val) {
+        self.switchTab(val)
+      }
+    })
   },
   data() {
     return {

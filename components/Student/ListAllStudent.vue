@@ -7,6 +7,7 @@
       :hasStatus="true"
       :pageType="pageType"
       :defaultStatus="status"
+      :hasRegistrationStatus="registrationStatus"
       class="mt-2 mb-2 ml-2 mr-2"
     />
     <div class="table-responsive" v-if="type === pageType">
@@ -19,8 +20,11 @@
             <th>Name</th>
             <th>Student ID</th>
             <th>Registration ID</th>
+            <th>Phone Number</th>
             <th>School</th>
             <th>Qualification</th>
+            <th>Creation Date</th>
+            <th>Registration Status</th>
             <th>Sage Account Status</th>
             <th>Financial Status</th>
             <th>Admission Status</th>
@@ -58,10 +62,21 @@
               <strong>{{ student.registration_id }}</strong>
             </td>
             <td>
+              <strong>{{ student.phone_number }}</strong>
+            </td>
+            <td>
               <strong>{{ student.profile.school ? student.profile.school.name : '' }}</strong>
             </td>
             <td>
               <strong>{{ student.profile.qualification ? student.profile.qualification.name : '' }}</strong>
+            </td>
+            <td>
+              <strong>
+                {{student.date_created}}
+              </strong>
+            </td>
+            <td>
+              <strong>{{ student.registration_completion_status }}</strong>
             </td>
             <td>
               <strong>{{ student.sage_status }}</strong>
@@ -229,6 +244,10 @@ export default {
     emitDetailsTo: {
       type: String,
       required: true,
+    },
+    registrationStatus: {
+      type: Boolean,
+      default: false,
     },
   },
   data() {

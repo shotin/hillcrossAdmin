@@ -287,8 +287,8 @@
                 must be filled before advancing to the next page!
               </p>
               <div class="text-left side-by-side-button w-200">
-                <nuxt-link to="/personal-details" class="btn btn-primary"
-                  >Back</nuxt-link
+                <button type="button" @click="goBack()" class="btn btn-primary"
+                  >Back</button
                 >
                 <Button
                   :button_class="'btn btn-outline-success'"
@@ -425,18 +425,21 @@ export default {
         };
       }
       await this.$axios
-        .post("/students/contact-details", this.form)
+        .post(`/admin/students/${this.user.id}/contact-details`, this.form)
         .then(res => {
           this.stopLoader();
           notify("Contact details updated successfully", "success");
-          this.$store.commit("auth/UPDATE_USER_INFO", res.data.data);
-          this.$router.push("/sponsor-information");
+          this.$store.commit("student/UPDATE_USER_INFO", res.data.data);
+          this.$root.$emit('update_tab', 'sponsor_information')
         })
         .catch(err => {
           console.log(err);
           this.stopLoader();
           handleError(err);
         });
+    },
+    goBack() {
+      this.$root.$emit('update_tab', 'personal_details')
     },
     stopLoader() {
       this.loading = false;

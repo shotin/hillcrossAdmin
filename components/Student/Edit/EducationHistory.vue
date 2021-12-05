@@ -153,7 +153,9 @@
                 must be filled before advancing to the next page!
               </p>
               <div class="text-left side-by-side-button w-200">
-                <nuxt-link to="/sponsor-information" class="btn btn-default">Back</nuxt-link>
+                <button type="button" @click="goBack()" class="btn btn-primary"
+                  >Back</button
+                >
                 <Button
                   :button_class="'btn btn-outline-success'"
                   :disabled="disabled"
@@ -260,18 +262,21 @@ export default {
       this.loading = true;
       this.disabled = true;
       await this.$axios
-        .post("/students/education-histories", this.form)
+        .post(`/admin/students/${this.user.id}/education-histories`, this.form)
         .then(res => {
           this.stopLoader();
           notify("Education history updated successfully", "success");
-          this.$store.commit("auth/UPDATE_USER_INFO", res.data.data);
-          this.$router.push("/qualification-information");
+          this.$store.commit("student/UPDATE_USER_INFO", res.data.data);
+          this.$root.$emit('update_tab', 'qualification_information')
         })
         .catch(err => {
           console.log(err);
           this.stopLoader();
           handleError(err);
         });
+    },
+    goBack() {
+      this.$root.$emit('update_tab', 'sponsor_information')
     },
     getYears() {
       var currentYear = new Date().getFullYear();

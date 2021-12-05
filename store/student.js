@@ -12,4 +12,8 @@ export const state = () => ({
     SET_DATA(state, data) {
       state.pageData = data;
     },
+
+    UPDATE_USER_INFO(state, data) {
+      state.pageData = data
+    }
   };

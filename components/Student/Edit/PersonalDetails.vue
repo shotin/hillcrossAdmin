@@ -281,12 +281,12 @@ export default {
       this.loading = true;
       this.disabled = true;
       await this.$axios
-        .post("/students/personal-details", this.form)
+        .post(`/admin/students/${this.user.id}/personal-details`, this.form)
         .then((res) => {
           this.stopLoader();
           notify("Personal details updated successfully", "success");
-          this.$store.commit("auth/UPDATE_USER_INFO", res.data.data);
-          this.$router.push("/contact-details");
+          this.$store.commit("student/UPDATE_USER_INFO", res.data.data);
+          this.$root.$emit('update_tab', 'contact_details')
         })
         .catch((err) => {
           console.log(err);

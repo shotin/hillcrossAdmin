@@ -49,6 +49,7 @@
               :pageType="`applicant_students`"
               :emitTo="`applicant_students`"
               :emitDetailsTo="`applicant_student_details`"
+              :registrationStatus="true"
               :show="true"
               :edit="true"
             />
