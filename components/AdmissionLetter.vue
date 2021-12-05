@@ -32,7 +32,7 @@ export default {
   },
   methods: {
     viewAdmissionLetter() {
-      
+      window.open(data.admission_letter_url, "_blank");
     },
   },
 };

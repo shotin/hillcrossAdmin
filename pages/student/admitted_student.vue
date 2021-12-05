@@ -70,7 +70,7 @@
 </template>
 <script>
 import { mapGetters } from "vuex";
-import ListAllStudent from "../../components/Student/ListAllStudent.vue";
+import ListAllStudent from "@/components/Student/ListAllStudent.vue";
 
 export default {
   components: { ListAllStudent },

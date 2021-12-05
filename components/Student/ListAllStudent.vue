@@ -178,6 +178,16 @@
                     :storeItem="`app/UPDATE_DATA`"
                     :emitTo="emitTo"
                   />
+                  <regenerate-admission-letter
+                    v-if="
+                      student.admission_status === 'Admitted'
+                    "
+                    :want_block="true"
+                    :data="student"
+                    :url="`/students/${student.id}/regenerate-admission-letter`"
+                    :storeItem="`app/UPDATE_DATA`"
+                    :emitTo="emitTo"
+                  />
                   <print-details
                     :want_block="true"
                     :data="student"
@@ -222,6 +232,7 @@ import ArchiveStudent from "../ArchiveStudent.vue";
 import GrantAdmission from "../GrantAdmission.vue";
 import PrintDetails from '../PrintDetails.vue';
 import AdmissionLetter from '../AdmissionLetter.vue';
+import RegenerateAdmissionLetter from '../RegenerateAdmissionLetter.vue';
 export default {
   props: {
     status: {
@@ -267,6 +278,7 @@ export default {
     GrantAdmission,
     PrintDetails,
     AdmissionLetter,
+    RegenerateAdmissionLetter,
   },
   computed: {
     ...mapGetters({

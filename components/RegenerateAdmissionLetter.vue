@@ -6,7 +6,7 @@
     @click="grantAdmission()"
     title="Grant Admission"
   >
-    Grant Admission
+    Regenerate Admission Letter
   </a>
 </template>
 <script>
@@ -38,7 +38,7 @@ export default {
   methods: {
     grantAdmission() {
       Swal.fire({
-        title: `Are you sure you want to grant this student admission?`,
+        title: `Are you sure you want to regenerate student admission letter?`,
         text: "You won't be able to revert this!",
         icon: "warning",
         showCancelButton: true,
@@ -52,14 +52,14 @@ export default {
             .get(this.url)
             .then((res) => {
               notify(
-                `Student admitted successfuly`,
+                `Admission letter regenerated successfully`,
                 "success"
               );
               this.$root.$emit(this.emitTo, {current_page: 1})
             })
             .catch((error) => {
               Swal.showValidationMessage(
-                `Request failed: user cannot be granted admission at this time, please try again`
+                `Request failed: an error occurred regenerating admission letter`
               );
             });
         },
