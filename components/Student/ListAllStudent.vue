@@ -1,5 +1,5 @@
 <template>
-  <div class="card">
+  <span>
     <filter-student
       :hasFinancialStatus="true"
       :hasQualification="true"
@@ -12,7 +12,7 @@
     />
     <div class="table-responsive" v-if="type === pageType">
       <table
-        class="table table-hover table-vcenter text-nowrap table-striped mb-2"
+        class="table table-hover table-vcenter mb-2"
       >
         <thead>
           <tr>
@@ -217,7 +217,7 @@
       />
     </div>
     <loader v-else />
-  </div>
+  </span>
 </template>
 <script>
 import { mapGetters, mapActions } from "vuex";
@@ -356,3 +356,9 @@ export default {
   },
 };
 </script>
+<style>
+.dropdown-menu {
+    max-height: 180px;
+    overflow-y: auto;
+}
+</style>
