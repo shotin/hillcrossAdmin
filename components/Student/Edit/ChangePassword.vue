@@ -85,7 +85,7 @@ export default {
     },
     processChangePassword() {
       this.$axios
-        .patch("/admin/students/change-password", this.form)
+        .patch(`/admin/students/${this.user.id}/change-password`, this.form)
         .then((res) => {
           this.form = this.getForm();
           notify("Account updated successfully", "success");
