@@ -60,7 +60,8 @@ export default {
     { src: "@/plugins/bootstrap-vue", ssr: false },
     { src: "@/plugins/bootstrap-vue", ssr: false },
     { src: "@/plugins/moment", ssr: false },
-    { src: "@/plugins/phone-number", ssr: false }
+    { src: "@/plugins/phone-number", ssr: false },
+    { src: "@/plugins/date-picker", ssr: false }
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components

@@ -25,14 +25,14 @@
                 >List View</a
               >
             </li>
-            <li class="nav-item" v-if="add">
+            <li class="nav-item">
               <a
                 class="nav-link"
                 :class="[add ? 'active' : '']"
                 data-toggle="tab"
                 @click.prevent="switchTab('add')"
                 href="#pro-add"
-                >Manage</a
+                >New Applicant</a
               >
             </li>
           </ul>
@@ -61,7 +61,7 @@
             id="pro-add"
           >
             <div class="card">
-              <div class="table-responsive"></div>
+              <registration />
             </div>
           </div>
         </div>
@@ -71,10 +71,11 @@
 </template>
 <script>
 import { mapGetters } from "vuex";
+import Registration from '../../components/Student/Edit/Registration.vue';
 import ListAllStudent from "../../components/Student/ListAllStudent.vue";
 
 export default {
-  components: { ListAllStudent },
+  components: { ListAllStudent, Registration },
   computed: {
     ...mapGetters({
       select: "select/select",
