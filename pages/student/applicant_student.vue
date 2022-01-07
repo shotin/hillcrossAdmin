@@ -25,7 +25,7 @@
                 >List View</a
               >
             </li>
-            <li class="nav-item">
+            <!-- <li class="nav-item">
               <a
                 class="nav-link"
                 :class="[add ? 'active' : '']"
@@ -34,7 +34,7 @@
                 href="#pro-add"
                 >New Applicant</a
               >
-            </li>
+            </li> -->
           </ul>
         </div>
       </div>

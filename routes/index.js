@@ -115,6 +115,11 @@ module.exports = [
     component: "./pages/student/applicant_student.vue",
   },
   {
+    name: "new-applicant-students",
+    path: "/students/applicant/new",
+    component: "./pages/student/new_applicant.vue",
+  },
+  {
     name: "dropped-out--students",
     path: "/students/dropped-out",
     component: "./pages/student/dropped_out_student.vue",

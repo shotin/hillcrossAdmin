@@ -125,6 +125,11 @@
                   </nuxt-link>
                 </li>
                 <li>
+                  <nuxt-link class="nav-link" to="/students/applicant/new"
+                    ><i class="fa fa-user-plus"></i>New Applicant
+                  </nuxt-link>
+                </li>
+                <li>
                   <nuxt-link class="nav-link" to="/students/applicant"
                     ><i class="fa fa-house-user"></i>Applicant List
                   </nuxt-link>
