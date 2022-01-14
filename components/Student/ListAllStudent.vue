@@ -195,7 +195,7 @@
                     :storeItem="`app/UPDATE_DATA`"
                   />
                   <admission-letter
-                    v-if="pageType === 'admitted_students' && student.admission_status === 'Admitted'"
+                    v-if="student.admission_status === 'Admitted'"
                     :want_block="true"
                     :data="student"
                     :url="`/students/${student.id}/admission-letter`"

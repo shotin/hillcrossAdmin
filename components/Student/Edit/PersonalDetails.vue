@@ -24,6 +24,17 @@
                         <option value="Ms">Ms</option>
                       </select>
                     </div>
+                    <div class="mb-3" v-if="phone_number">
+                      <label for=""
+                        >Telephone Number <span class="text-danger">*</span></label
+                      >
+                      <vue-phone-number-input
+                        v-model="phone_number"
+                        :default-country-code="country_code"
+                        :required="true"
+                        @update="phoneResult = $event"
+                      />
+                    </div>
                     <div class="mb-3">
                       <label class="custom-text" for=""
                         >First Name <span class="text-danger">*</span></label
@@ -230,6 +241,9 @@ export default {
       form: this.getForm(),
       loading: false,
       disabled: false,
+      phoneResult: null,
+      phone_number: "",
+      country_code: "ZA"
     };
   },
   computed: {
@@ -271,6 +285,12 @@ export default {
             ? "Yes"
             : "No"
           : "";
+        this.phone_number = this.user
+            ? `${this.user.phone_number}`
+            : "";
+        this.country_code = this.user && this.user.country_code
+          ? this.user.country_code
+          : this.country_code;
       },
       immediate: true,
       deep: true,
@@ -280,6 +300,11 @@ export default {
     async processPersonalInformation() {
       this.loading = true;
       this.disabled = true;
+      this.form.phone_number = {
+        country_code: this.phoneResult.countryCode,
+        phone_code: this.phoneResult.countryCallingCode,
+        phone_number: this.phone_number
+      };
       await this.$axios
         .post(`/admin/students/${this.user.id}/personal-details`, this.form)
         .then((res) => {
@@ -309,6 +334,7 @@ export default {
         home_language: "",
         race: "",
         disability: "No",
+        phone_number: "",
       };
     },
   },

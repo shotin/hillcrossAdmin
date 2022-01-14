@@ -55,7 +55,7 @@ export default {
                 `Student admitted successfuly`,
                 "success"
               );
-              this.$root.$emit(this.emitTo, {current_page: 1})
+              this.$store.commit("app/UPDATE_DATA", res.data.data);
             })
             .catch((error) => {
               Swal.showValidationMessage(
