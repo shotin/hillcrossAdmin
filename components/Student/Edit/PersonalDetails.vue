@@ -71,10 +71,9 @@
                         disabled
                       />
                     </div>
-                    <div class="mb-3">
+                    <div class="mb-3" v-if="user.profile.nationality">
                       <label class="custom-text" for="">Nationality </label>
                       <input
-                        v-if="user.profile.nationality"
                         type="text"
                         v-model="user.profile.nationality.name"
                         class="form-control"

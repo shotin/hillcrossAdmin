@@ -23,6 +23,7 @@
             <th>Phone Number</th>
             <th>School</th>
             <th>Qualification</th>
+            <th>Registration Year</th>
             <th>Creation Date</th>
             <th>Registration Status</th>
             <th>Sage Account Status</th>
@@ -69,6 +70,9 @@
             </td>
             <td>
               <strong>{{ student.profile.qualification ? student.profile.qualification.name : '' }}</strong>
+            </td>
+            <td>
+              <strong>{{ student.registration_year }}</strong>
             </td>
             <td>
               <strong>
