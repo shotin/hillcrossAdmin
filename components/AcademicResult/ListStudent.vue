@@ -43,7 +43,7 @@
               <span>{{ student.student_id }}</span>
             </td>
             <td>
-              <span>{{ student.profile.qualification.name }}</span>
+              <span>{{ student.profile.qualification ? student.profile.qualification.name : '' }}</span>
             </td>
             <td>
               {{ student.date_created }}

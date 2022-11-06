@@ -7,7 +7,7 @@
     <p class="mt-2 ml-1">
       Academic result for student number {{ student_data.student_id }},
       {{ student_data.name }} as on {{ current_date }} <br />
-      Qualification {{ student_data.profile.qualification.name }}
+      Qualification {{ student_data.profile.qualification ? tudent_data.profile.qualification.name : '' }}
     </p>
     <table
       class="table table-hover table-vcenter text-nowrap table-striped mb-0"

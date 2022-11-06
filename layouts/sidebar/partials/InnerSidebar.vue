@@ -213,11 +213,11 @@
                 <i class="fa fa-bullhorn"></i><span>Marketing</span>
               </a>
               <ul class="submenu collapse">
-                <!-- <li>
-                  <nuxt-link class="nav-link" to="/staff/academic"
-                    >Reports
+                <li>
+                  <nuxt-link class="nav-link" to="/announcements"
+                    ><i class="fa fa-bullhorn"></i>Announcements
                   </nuxt-link>
-                </li> -->
+                </li>
                 <li>
                   <nuxt-link class="nav-link" to="/marketing/databases"
                     ><i class="fa fa-database"></i>Database

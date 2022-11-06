@@ -69,7 +69,7 @@
               <strong>{{ student.profile.school ? student.profile.school.name : '' }}</strong>
             </td>
             <td>
-              <strong>{{ student.profile.qualification ? student.profile.qualification.name : '' }}</strong>
+              <strong>{{ student.profile ? student.profile.qualification ? student.profile.qualification.name : '' : '' }}</strong>
             </td>
             <td>
               <strong>{{ student.registration_year }}</strong>

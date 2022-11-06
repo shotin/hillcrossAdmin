@@ -159,4 +159,9 @@ module.exports = [
     path: "/profile",
     component: "./pages/profile.vue",
   },
+  {
+    name: "announcements",
+    path: "/announcements",
+    component: "./pages/announcement/index.vue",
+  },
 ];

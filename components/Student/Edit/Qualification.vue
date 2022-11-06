@@ -67,6 +67,60 @@
                       class="mb-3"
                       v-if="form.study_mode === 'Online/Distance Learning'"
                     >
+                      <label class="custom-text" for=""
+                        >Courier Delivery Process
+                        <span class="text-danger">*</span></label
+                      >
+                      <select
+                        name=""
+                        v-model="form.study_material_delivery"
+                        class="form-control"
+                        id=""
+                        :disabled="user.next_stage === 'end'"
+                      >
+                        <option value=""
+                          >Select Courier Delivery Process</option
+                        >
+                        <option value="I prefer PAXI">I prefer PAXI</option>
+                        <option value="Doorstep delivery">
+                          Doorstep delivery
+                        </option>
+                        <option value="I will pick up myself">
+                          I will pick up myself
+                        </option>
+                      </select>
+                    </div>
+                    <span
+                      class="mb-2"
+                      style="color: red; font-style: italic"
+                      v-if="form.study_material_delivery === 'I prefer PAXI'"
+                      >*PAXI does not do a door to door delivery</span
+                    >
+                    <div
+                      class="mb-3"
+                      v-if="
+                        ['I prefer PAXI', 'Doorstep delivery'].includes(
+                          form.study_material_delivery
+                        )
+                      "
+                    >
+                      <label class="custom-text" for=""
+                        >Enter Delivery Address
+                      </label>
+                      <input
+                        type="text"
+                        v-model="form.delivery_address"
+                        class="form-control"
+                        placeholder="Input Address"
+                        aria-label="Address"
+                        aria-describedby="address-addon"
+                        :disabled="user.next_stage === 'end'"
+                      />
+                    </div>
+                    <div
+                      class="mb-3"
+                      v-if="form.study_mode === 'Online/Distance Learning'"
+                    >
                       <label class="custom-text" for="">Email </label>
                       <input
                         type="email"
@@ -104,12 +158,10 @@
                 Fields marked with asterisk(<span class="text-danger">*</span>)
                 must be filled before advancing to the next page!
               </p>
-              <div
-                class="text-left side-by-side-button w-200"
-              >
-                <button type="button" @click="goBack()" class="btn btn-primary"
-                  >Back</button
-                >
+              <div class="text-left side-by-side-button w-200">
+                <button type="button" @click="goBack()" class="btn btn-primary">
+                  Back
+                </button>
                 <Button
                   :button_class="'btn btn-outline-success'"
                   :disabled="disabled"
@@ -173,6 +225,8 @@ export default {
           ? newVal.qualification.academic_session
           : "";
         this.form.email = newVal.email;
+        this.form.study_material_delivery = newVal.study_material_delivery;
+        this.form.delivery_address = newVal.delivery_address;
       },
       immediate: true,
       deep: true,
@@ -205,12 +259,15 @@ export default {
         this.form.academic_session_id = this.selectedCalender.id;
       }
       await this.$axios
-        .post(`/admin/students/${this.user.id}/qualification-information`, this.form)
+        .post(
+          `/admin/students/${this.user.id}/qualification-information`,
+          this.form
+        )
         .then((res) => {
           this.stopLoader();
           notify("Qualification information updated successfully", "success");
           this.$store.commit("student/UPDATE_USER_INFO", res.data.data);
-          this.$root.$emit('update_tab', 'document_upload')
+          this.$root.$emit("update_tab", "document_upload");
         })
         .catch((err) => {
           console.log(err);
@@ -219,7 +276,7 @@ export default {
         });
     },
     goBack() {
-      this.$root.$emit('update_tab', 'education_history')
+      this.$root.$emit("update_tab", "education_history");
     },
     stopLoader() {
       this.loading = false;
@@ -232,6 +289,8 @@ export default {
         study_mode: "",
         academic_session_id: "",
         email: "",
+        study_material_delivery: "",
+        delivery_address: "",
       };
     },
   },
