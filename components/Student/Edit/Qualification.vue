@@ -76,7 +76,6 @@
                         v-model="form.study_material_delivery"
                         class="form-control"
                         id=""
-                        :disabled="user.next_stage === 'end'"
                       >
                         <option value=""
                           >Select Courier Delivery Process</option
