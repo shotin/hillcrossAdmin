@@ -8,7 +8,7 @@
               <div class="row mb-4">
                 <div class="col-md-4">
                   <label class="custom-text" for=""
-                    >Certified ID/Passport Copy Or Birth Certificate
+                    >ID copy or Passport copy or Birth certificate
                   </label>
                 </div>
                 <div class="col-md-6">
@@ -17,7 +17,7 @@
                   />
                 </div>
               </div>
-              <div class="row mb-4">
+              <!-- <div class="row mb-4">
                 <div class="col-md-4">
                   <label class="custom-text" for=""
                     >Certified ID/Passport Of One Parent
@@ -28,12 +28,11 @@
                     :document_type="`parent_id`"
                   />
                 </div>
-              </div>
+              </div> -->
               <div class="row mb-4">
                 <div class="col-md-4">
                   <label class="custom-text" for=""
-                    >Certified Copy Of Matric Or Current Grade 11 Result With
-                    The School Stamp
+                    >Copy of Matric or ABET L4 or Senior School Certificate or N3 certificate or Current Grade 12 result with school stamp.
                   </label>
                 </div>
                 <div class="col-md-6">
@@ -45,7 +44,7 @@
               <div class="row mb-4">
                 <div class="col-md-4">
                   <label class="custom-text" for=""
-                    >Certified Copy Of Proof Of Address
+                    >Copy Of Proof Of Address
                   </label>
                 </div>
                 <div class="col-md-6">
@@ -54,7 +53,7 @@
                   />
                 </div>
               </div>
-              <div class="row mb-4">
+              <!-- <div class="row mb-4">
                 <div class="col-md-4">
                   <label class="custom-text" for=""
                     >Bursary/Trust Fund award letter
@@ -65,8 +64,8 @@
                     :document_type="`bursary_letter`"
                   />
                 </div>
-              </div>
-              <div class="row mb-4">
+              </div> -->
+              <!-- <div class="row mb-4">
                 <div class="col-md-4">
                   <label class="custom-text" for=""
                     >Evidence/Result Of Higher Education Qualification (For
@@ -78,7 +77,7 @@
                     :document_type="`student_qualification`"
                   />
                 </div>
-              </div>
+              </div> -->
               <p><br /></p>
               <div
                 class="text-left side-by-side-button w-200"

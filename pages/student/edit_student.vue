@@ -24,7 +24,7 @@
                 >Contact Details</a
               >
             </li>
-            <li class="nav-item">
+            <!-- <li class="nav-item">
               <a
                 class="nav-link"
                 data-toggle="tab"
@@ -33,7 +33,7 @@
                 :class="[sponsor_information ? 'active' : '']"
                 >Sponsor Information</a
               >
-            </li>
+            </li> -->
             <li class="nav-item">
               <a
                 class="nav-link"
@@ -143,9 +143,9 @@ import Document from '../../components/Student/Edit/Document.vue';
 import EducationHistory from '../../components/Student/Edit/EducationHistory.vue';
 import PersonalDetails from "../../components/Student/Edit/PersonalDetails.vue";
 import Qualification from '../../components/Student/Edit/Qualification.vue';
-import SponsorInformation from '../../components/Student/Edit/SponsorInformation.vue';
+// import SponsorInformation from '../../components/Student/Edit/SponsorInformation.vue';
 export default {
-  components: { ChangePassword, PersonalDetails, ContactDetails, SponsorInformation, EducationHistory, Qualification, Document },
+  components: { ChangePassword, PersonalDetails, ContactDetails, EducationHistory, Qualification, Document },
   computed: {
     ...mapGetters({
       select: "select/select",

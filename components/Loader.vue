@@ -12,7 +12,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="css">
   .circle-loader {
     display: block;
     text-align: center;

@@ -11,9 +11,7 @@
       class="mt-2 mb-2 ml-2 mr-2"
     />
     <div class="table-responsive" v-if="type === pageType">
-      <table
-        class="table table-hover table-vcenter mb-2"
-      >
+      <table class="table table-hover table-vcenter mb-2">
         <thead>
           <tr>
             <th>Avatar</th>
@@ -35,7 +33,7 @@
         </thead>
         <tbody>
           <tr v-for="student in students" :key="student.id">
-            <td class="w60" v-if="student.profile.avatar">
+            <td class="w60" v-if="student.profile && student.profile.avatar">
               <img
                 class="avatar"
                 :src="student.profile.avatar"
@@ -66,17 +64,35 @@
               <strong>{{ student.phone_number }}</strong>
             </td>
             <td>
-              <strong>{{ student.profile.school ? student.profile.school.name : '' }}</strong>
+              <strong>{{
+                student.school.name
+              }}</strong>
+               <!-- <strong>{{
+                student.school.name && student.profile && student.profile.school
+                  ? student.profile.school.name
+                  : ""
+              }}</strong> -->
             </td>
             <td>
-              <strong>{{ student.profile ? student.profile.qualification ? student.profile.qualification.name : '' : '' }}</strong>
+              <strong>{{
+                student.qualification.name
+              }}</strong>
+              <!-- <strong>
+                {{
+                  student.profile
+                    ? student.profile.qualification
+                      ? student.profile.qualification.name
+                      : ""
+                    : ""
+                }}
+              </strong> -->
             </td>
             <td>
               <strong>{{ student.registration_year }}</strong>
             </td>
             <td>
               <strong>
-                {{student.date_created}}
+                {{ student.date_created }}
               </strong>
             </td>
             <td>
@@ -130,7 +146,7 @@
                   <create-sage
                     v-if="
                       pageType === 'admitted_students' &&
-                        student.sage_status === 'Not Created'
+                      student.sage_status === 'Not Created'
                     "
                     :want_block="true"
                     :data="student"
@@ -140,7 +156,7 @@
                   <delete-sage
                     v-if="
                       pageType === 'admitted_students' &&
-                        student.sage_status === 'Created'
+                      student.sage_status === 'Created'
                     "
                     :want_block="true"
                     :data="student"
@@ -174,7 +190,7 @@
                   <grant-admission
                     v-if="
                       student.admission_status === 'Registered' &&
-                        student.next_stage === 'end'
+                      student.next_stage === 'end'
                     "
                     :want_block="true"
                     :data="student"
@@ -183,9 +199,7 @@
                     :emitTo="emitTo"
                   />
                   <regenerate-admission-letter
-                    v-if="
-                      student.admission_status === 'Admitted'
-                    "
+                    v-if="student.admission_status === 'Admitted'"
                     :want_block="true"
                     :data="student"
                     :url="`/students/${student.id}/regenerate-admission-letter`"
@@ -234,9 +248,9 @@ import Paginate from "../Paginate.vue";
 import ManageFinancialStatus from "../ManageFinancialStatus.vue";
 import ArchiveStudent from "../ArchiveStudent.vue";
 import GrantAdmission from "../GrantAdmission.vue";
-import PrintDetails from '../PrintDetails.vue';
-import AdmissionLetter from '../AdmissionLetter.vue';
-import RegenerateAdmissionLetter from '../RegenerateAdmissionLetter.vue';
+import PrintDetails from "../PrintDetails.vue";
+import AdmissionLetter from "../AdmissionLetter.vue";
+import RegenerateAdmissionLetter from "../RegenerateAdmissionLetter.vue";
 export default {
   props: {
     status: {
@@ -314,7 +328,7 @@ export default {
   },
   mounted() {
     let self = this;
-    this.$root.$on(self.emitTo, function(filter) {
+    this.$root.$on(self.emitTo, function (filter) {
       if (filter) {
         self.records.current_page = filter.current_page;
         self.$store.commit("app/SET_DATA", null);
@@ -322,7 +336,7 @@ export default {
         self.getStudents();
       }
     });
-    this.$root.$on("update_pagination", function(filter) {
+    this.$root.$on("update_pagination", function (filter) {
       self.records = filter;
     });
     this.getStudents();
@@ -350,7 +364,7 @@ export default {
       };
     },
     openEdit(data) {
-      this.$router.push(`/students/${data.student_id}/edit`)
+      this.$router.push(`/students/${data.student_id}/edit`);
     },
     openShow(data) {
       const time = new Date();
@@ -362,7 +376,7 @@ export default {
 </script>
 <style>
 .dropdown-menu {
-    max-height: 180px;
-    overflow-y: auto;
+  max-height: 180px;
+  overflow-y: auto;
 }
 </style>

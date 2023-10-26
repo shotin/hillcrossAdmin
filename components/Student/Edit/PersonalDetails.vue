@@ -24,7 +24,7 @@
                         <option value="Ms">Ms</option>
                       </select>
                     </div>
-                    <div class="mb-3" v-if="phone_number">
+                    <!-- <div class="mb-3" v-if="phone_number">
                       <label for=""
                         >Telephone Number <span class="text-danger">*</span></label
                       >
@@ -34,7 +34,7 @@
                         :required="true"
                         @update="phoneResult = $event"
                       />
-                    </div>
+                    </div> -->
                     <div class="mb-3">
                       <label class="custom-text" for=""
                         >First Name <span class="text-danger">*</span></label
@@ -59,7 +59,7 @@
                         aria-describedby="other_name-addon"
                       />
                     </div>
-                    <div class="mb-3">
+                    <!-- <div class="mb-3">
                       <label class="custom-text" for="">DOB </label>
                       <input
                         type="date"
@@ -70,19 +70,46 @@
                         aria-describedby="other_name-addon"
                         disabled
                       />
+                    </div> -->
+                    <div class="mb-3">
+                      <labe for="">DOB <span class="text-danger">*</span></labe>
+                      <date-picker
+                        :minimumView="'day'"
+                        :maximumView="'month'"
+                        :initialView="'month'"
+                        input-class="form-control"
+                        v-model="form.dob"
+                        :typeable="true"
+                      ></date-picker>
                     </div>
-                    <div class="mb-3" v-if="user.profile.nationality">
-                      <label class="custom-text" for="">Nationality </label>
+                    <div class="mb-3">
+                      <label class="custom-text" for="">Country </label>
+                      <multiselect
+                      v-model="selectCountry"
+                      :options="select.countries"
+                      track-by="id"
+                      label="name"
+                      required
+                      :multiple="false"
+                      :searchable="true"
+                      :close-on-select="true"
+                      :show-labels="false"
+                      placeholder="Select Country"
+                      :disabled="user.next_stage === 'end'"
+                      >
+                      </multiselect>
+                    </div>
+                    <!-- <div class="mb-3">
+                      <label class="custom-text" for="">Country </label>
                       <input
                         type="text"
                         v-model="user.profile.nationality.name"
                         class="form-control"
-                        placeholder="Date of birth"
                         aria-label="OtherName"
                         aria-describedby="other_name-addon"
                         disabled
                       />
-                    </div>
+                    </div> -->
                     <div class="mb-3">
                       <label class="custom-text" for=""
                         >Home Language <span class="text-danger">*</span></label
@@ -98,8 +125,9 @@
                           :value="language"
                           v-for="(language, index) in homeLanguages"
                           :key="index"
-                          >{{ language }}</option
                         >
+                          {{ language }}
+                        </option>
                       </select>
                     </div>
                   </div>
@@ -134,7 +162,7 @@
                         aria-describedby="surname-addon"
                       />
                     </div>
-                    <div class="mb-3">
+                    <!-- <div class="mb-3">
                       <label class="custom-text" for="">Maiden Name </label>
                       <input
                         type="text"
@@ -144,7 +172,7 @@
                         aria-label="Maidenname"
                         aria-describedby="maiden_name-addon"
                       />
-                    </div>
+                    </div> -->
                     <div class="mb-3">
                       <label class="custom-text" for=""
                         >Race <span class="text-danger">*</span></label
@@ -219,8 +247,13 @@
 <script>
 import { mapGetters } from "vuex";
 import { notify, handleError } from "@/assets/js/utility";
+import Multiselect from "vue-multiselect";
+import "vue-multiselect/dist/vue-multiselect.min.css";
 export default {
   mounted() {},
+  components: {
+    Multiselect,
+  },
   data() {
     return {
       homeLanguages: [
@@ -241,13 +274,15 @@ export default {
       loading: false,
       disabled: false,
       phoneResult: null,
+      selectCountry: "",
       phone_number: "",
-      country_code: "ZA"
+      country_code: "ZA",
     };
   },
   computed: {
     ...mapGetters({
       user: "student/pageData",
+      select: "select/select",
     }),
   },
   watch: {
@@ -266,6 +301,7 @@ export default {
             : ""
           : "";
         this.form.other_name = newVal.profile ? newVal.profile.other_name : "";
+        this.form.dob = newVal.profile ? newVal.profile.dob : "";
         this.form.maiden_name = newVal.profile
           ? newVal.profile.maiden_name
           : "";
@@ -274,6 +310,7 @@ export default {
             ? newVal.profile.race
             : ""
           : "";
+        this.selectCountry = newVal.address ? newVal.address.country : "";
         this.form.home_language = newVal.profile
           ? newVal.profile.home_language
             ? newVal.profile.home_language
@@ -284,12 +321,11 @@ export default {
             ? "Yes"
             : "No"
           : "";
-        this.phone_number = this.user
-            ? `${this.user.phone_number}`
-            : "";
-        this.country_code = this.user && this.user.country_code
-          ? this.user.country_code
-          : this.country_code;
+        this.phone_number = this.user ? `${this.user.phone_number}` : "";
+        this.country_code =
+          this.user && this.user.country_code
+            ? this.user.country_code
+            : this.country_code;
       },
       immediate: true,
       deep: true,
@@ -299,18 +335,21 @@ export default {
     async processPersonalInformation() {
       this.loading = true;
       this.disabled = true;
-      this.form.phone_number = {
-        country_code: this.phoneResult.countryCode,
-        phone_code: this.phoneResult.countryCallingCode,
-        phone_number: this.phone_number
-      };
+      // this.form.phone_number = {
+      //   country_code: this.phoneResult.countryCode,
+      //   phone_code: this.phoneResult.countryCallingCode,
+      //   phone_number: this.phone_number
+      // };
+      if (this.selectCountry) {
+        this.form.country_id = this.selectCountry.id;
+      }
       await this.$axios
         .post(`/admin/students/${this.user.id}/personal-details`, this.form)
         .then((res) => {
           this.stopLoader();
           notify("Personal details updated successfully", "success");
           this.$store.commit("student/UPDATE_USER_INFO", res.data.data);
-          this.$root.$emit('update_tab', 'contact_details')
+          this.$root.$emit("update_tab", "contact_details");
         })
         .catch((err) => {
           console.log(err);
@@ -327,15 +366,23 @@ export default {
         title: "",
         gender: "",
         first_name: "",
+        selectNationality: "",
         last_name: "",
         other_name: "",
-        maiden_name: "",
+        dob: "",
+        // maiden_name: "",
         home_language: "",
         race: "",
         disability: "No",
-        phone_number: "",
+        // phone_number: "",
       };
     },
   },
 };
 </script>
+<style>
+@import url("https://fonts.googleapis.com/css2?family=Inter&display=swap");
+* {
+  font-family: "Inter", sans-serif;
+}
+</style>

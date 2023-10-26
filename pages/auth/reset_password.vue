@@ -1,4 +1,4 @@
-<style lang="scss">
+<style lang="css">
 * {
   padding-right: 0;
   padding-left: 0;

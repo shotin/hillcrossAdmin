@@ -22,7 +22,8 @@
                 <tr v-for="student in students" :key="student.id">
                   <td>{{ student.student_id }}</td>
                   <td>{{ student.name }}</td>
-                  <td>{{ student.profile.qualification.name }}</td>
+                  <!-- <td>{{ student.profile ? student.profile.qualification ? student.profile.qualification.name : '' : '' }}</td> -->
+                  <td>{{  student.qualification.name }}</td>
                   <td>{{ student.date_created }}</td>
                   <td>
                     <span>{{ student.financial_status }}</span>
@@ -58,6 +59,7 @@ export default {
         .get("/admin/dashboard/latest-students")
         .then((res) => {
           this.students = res.data.data;
+         
         })
         .catch((err) => {});
     },

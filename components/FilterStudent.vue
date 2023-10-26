@@ -1,16 +1,16 @@
 <template>
   <div class="row">
-    <div class="col-lg-4 col-md-4 col-sm-6">
+    <div class="col-lg-6 col-md-6 col-sm-6 mb-2">
       <div class="input-group">
         <input
           type="text"
           class="form-control"
-          placeholder="search student"
+          placeholder="Search student by Name, ID number, Phone Number, Registration ID"
           v-model="form.search"
         />
       </div>
     </div>
-    <div class="col-lg-4 col-md-4 col-sm-6 mb-2" v-if="hasSchool">
+    <div class="col-lg-6 col-md-6 col-sm-6 mb-2" v-if="hasSchool">
       <div class="input-group">
         <multiselect
           v-model="form.school"
@@ -27,7 +27,7 @@
         </multiselect>
       </div>
     </div>
-    <div class="col-lg-4 col-md-4 col-sm-6 mb-2" v-if="hasQualification">
+    <!-- <div class="col-lg-4 col-md-4 col-sm-6 mb-2" v-if="hasQualification">
       <div class="input-group">
         <multiselect
           v-model="form.qualification"
@@ -43,7 +43,7 @@
         >
         </multiselect>
       </div>
-    </div>
+    </div> -->
     <div class="col-lg-4 col-md-4 col-sm-6" v-if="hasFinancialStatus">
       <div class="input-group">
         <select
@@ -52,7 +52,7 @@
           v-model="form.financial_status"
           class="form-control"
         >
-        <option value="" disabled>Select Financial Status</option>
+          <option value="" disabled>Select Financial Status</option>
           <option value="all">All</option>
           <option value="Cleared">Cleared</option>
           <option value="Disabled">Disabled</option>
@@ -71,7 +71,12 @@
     </div>
     <div class="col-lg-4 col-md-4 col-sm-6" v-if="hasRegistrationStatus">
       <div class="input-group">
-        <select name="" id="" v-model="form.registration_status" class="form-control">
+        <select
+          name=""
+          id=""
+          v-model="form.registration_status"
+          class="form-control"
+        >
           <option value="" disabled>Select Registration Status</option>
           <option value="all">All</option>
           <option value="complete">Complete</option>
@@ -79,7 +84,7 @@
         </select>
       </div>
     </div>
-    <div class="col-lg-1 col-md-4 col-sm-6 mt-2">
+    <!-- <div class="col-lg-1 col-md-4 col-sm-6 mt-2">
       <Button
         :button_class="'btn btn-sm btn-primary btn-block'"
         :disabled="disabled"
@@ -88,7 +93,7 @@
         :value="'Filter'"
         @click.native="runFilter()"
       />
-    </div>
+    </div> -->
   </div>
 </template>
 <script>
@@ -119,12 +124,12 @@ export default {
     },
     defaultStatus: {
       type: String,
-      default: 'All'
+      default: "All",
     },
     hasRegistrationStatus: {
-      type : Boolean,
-      default : false
-    }
+      type: Boolean,
+      default: false,
+    },
   },
   computed: {
     ...mapGetters({
@@ -140,9 +145,18 @@ export default {
       loading: false,
       disabled: false,
       records: this.getRecords(),
-      selectQualifications: [],
+      // selectQualifications: [],
     };
   },
+  // watch: {
+  // "form.school": {
+  //   handler(newVal, oldVal) {
+  //     if (newVal !== oldVal) {
+  //       this.getQualification(newVal);
+  //     }
+  //   },
+  // },
+  // },
   watch: {
     "form.school": {
       handler(newVal, oldVal) {
@@ -151,20 +165,28 @@ export default {
         }
       },
     },
+    form: {
+      deep: true, // Watch for changes to all properties within the form object
+      handler() {
+        this.watchForm();
+      },
+    },
   },
+
   methods: {
     getForm() {
       return {
         search: "",
         school: "",
-        qualification: "",
+        // qualification: "",
         financial_status: "",
         status: "",
         admission_status: this.defaultStatus,
-        registration_status: ""
+        registration_status: "",
       };
     },
-    runFilter() {
+
+    watchForm() {
       this.$store.commit("app/SET_DATA", null);
       this.$store.commit("app/SET_TYPE", "");
       if (!this.form.financial_status) {
@@ -198,18 +220,57 @@ export default {
         .then((res) => {
           this.$store.commit("app/SET_DATA", res.data.data);
           this.$store.commit("app/SET_TYPE", this.pageType);
-          this.$root.$emit('update_pagination', res.data.meta)
+          this.$root.$emit("update_pagination", res.data.meta);
           this.records = res.data.meta;
         })
         .catch((err) => {});
     },
-    getQualification(school) {
-      if (school && school.id) {
-        this.selectQualifications = _.filter(this.select.qualifications, {
-          school_id: school.id,
-        });
-      }
-    },
+    // runFilter() {
+    //   this.$store.commit("app/SET_DATA", null);
+    //   this.$store.commit("app/SET_TYPE", "");
+    //   if (!this.form.financial_status) {
+    //     delete this.form.financial_status;
+    //   }
+    //   if (!this.form.status) {
+    //     delete this.form.status;
+    //   }
+    //   if (!this.form.school) {
+    //     delete this.form.school;
+    //   }
+    //   if (!this.form.qualification) {
+    //     delete this.form.qualification;
+    //   }
+    //   if (!this.form.search) {
+    //     delete this.form.search;
+    //   }
+    //   if (!this.form.registration_status) {
+    //     delete this.form.registration_status;
+    //   }
+    //   if (this.form.school) {
+    //     this.form.school = this.form.school.id;
+    //   }
+    //   if (this.form.qualification) {
+    //     this.form.qualification = this.form.qualification.id;
+    //   }
+    //   this.$axios
+    //     .get(`/students?page=${this.records.current_page}`, {
+    //       params: this.form,
+    //     })
+    //     .then((res) => {
+    //       this.$store.commit("app/SET_DATA", res.data.data);
+    //       this.$store.commit("app/SET_TYPE", this.pageType);
+    //       this.$root.$emit('update_pagination', res.data.meta)
+    //       this.records = res.data.meta;
+    //     })
+    //     .catch((err) => {});
+    // },
+    // getQualification(school) {
+    //   if (school && school.id) {
+    //     this.selectQualifications = _.filter(this.select.qualifications, {
+    //       school_id: school.id,
+    //     });
+    //   }
+    // },
     getRecords() {
       return {
         total: 0,

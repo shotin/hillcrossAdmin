@@ -1,4 +1,4 @@
-<style lang="scss">
+<style lang="css">
 .bg-image-lg {
   position: relative;
   overflow: hidden;

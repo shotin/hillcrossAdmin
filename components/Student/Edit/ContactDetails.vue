@@ -6,35 +6,8 @@
           <div class="card-body p-3" v-if="user">
             <form role="form" @submit.prevent="processContactInformation()">
               <!-- <div class="row"> -->
-              <div class="col-lg-6">
-                <div class="d-flex flex-column h-100">
-                  <div class="mb-3">
-                    <label class="custom-text" for="">Mobile Number </label>
-                    <input
-                      type="text"
-                      disabled
-                      v-model="user.phone_number"
-                      class="form-control"
-                      placeholder="Mobile Number"
-                      aria-label="Mobile Number"
-                      aria-describedby="mobile-number-addon"
-                    />
-                  </div>
-                </div>
-              </div>
-              <div class="col-lg-6">
-                <div class="d-flex flex-column h-100">
-                  <div class="mb-3">
-                    <label class="custom-text" for="">Telephone</label>
-                    <vue-phone-number-input
-                      v-model="telephone"
-                      :default-country-code="country_code"
-                      @update="phoneResult = $event"
-                    />
-                  </div>
-                </div>
-              </div>
-              <div class="col-lg-6">
+              
+              <!-- <div class="col-lg-6">
                 <div class="d-flex flex-column h-100">
                   <div class="mb-3">
                     <label class="custom-text" for="">FAX</label>
@@ -48,15 +21,38 @@
                     />
                   </div>
                 </div>
-              </div>
+              </div> -->
               <!-- </div> -->
               <p><br /></p>
               <div class="row">
-                <div class="col-lg-6">
-                  <p class="text-center">
-                    Home Address <span class="text-danger">*</span>
-                  </p>
+                <div class="col-lg-12">
                   <div class="d-flex flex-column h-100">
+                    <div class="mb-3">
+                      <label class="custom-text" for=""
+                        >Cell phone Number
+                      </label>
+                      <input
+                        type="text"
+                        disabled
+                        v-model="user.phone_number"
+                        class="form-control"
+                        placeholder="Mobile Number"
+                        aria-label="Mobile Number"
+                        aria-describedby="mobile-number-addon"
+                      />
+                    </div>
+
+                    <div class="mb-3">
+                    <label class="custom-text" for=""
+                      >Alternative Cell phone number</label
+                    >
+                    <vue-phone-number-input
+                      v-model="telephone"
+                      :default-country-code="country_code"
+                      @update="phoneResult = $event"
+                    />
+                  </div>
+
                     <div class="mb-3">
                       <label class="custom-text" for=""
                         >House/Building No
@@ -160,7 +156,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-lg-6">
+                <!-- <div class="col-lg-6">
                   <p class="text-center">
                     Postal Address <span class="text-danger">*</span>
                   </p>
@@ -279,7 +275,7 @@
                       </multiselect>
                     </div>
                   </div>
-                </div>
+                </div> -->
               </div>
               <p><br /></p>
               <p class="text-center">
@@ -287,9 +283,9 @@
                 must be filled before advancing to the next page!
               </p>
               <div class="text-left side-by-side-button w-200">
-                <button type="button" @click="goBack()" class="btn btn-primary"
-                  >Back</button
-                >
+                <button type="button" @click="goBack()" class="btn btn-primary">
+                  Back
+                </button>
                 <Button
                   :button_class="'btn btn-outline-success'"
                   :disabled="disabled"
@@ -314,7 +310,7 @@ import "vue-multiselect/dist/vue-multiselect.min.css";
 export default {
   mounted() {},
   components: {
-    Multiselect
+    Multiselect,
   },
   data() {
     return {
@@ -329,14 +325,14 @@ export default {
       postal_states: [],
       phoneResult: "",
       country_code: "ZA",
-      telephone: ""
+      telephone: "",
     };
   },
   computed: {
     ...mapGetters({
       user: "student/pageData",
-      select: "select/select"
-    })
+      select: "select/select",
+    }),
   },
   watch: {
     user: {
@@ -386,20 +382,20 @@ export default {
         }
       },
       immediate: true,
-      deep: true
+      deep: true,
     },
     selectCountry: {
       handler(newVal, oldVal) {
         this.states = _.filter(this.select.states, { country_id: newVal.id });
-      }
+      },
     },
     selectPostalCountry: {
       handler(newVal, oldVal) {
         this.postal_states = _.filter(this.select.states, {
-          country_id: newVal.id
+          country_id: newVal.id,
         });
-      }
-    }
+      },
+    },
   },
   methods: {
     async processContactInformation() {
@@ -421,25 +417,25 @@ export default {
         this.form.telephone = {
           country_code: this.phoneResult.countryCode,
           phone_code: this.phoneResult.countryCallingCode,
-          phone_number: this.telephone
+          phone_number: this.telephone,
         };
       }
       await this.$axios
         .post(`/admin/students/${this.user.id}/contact-details`, this.form)
-        .then(res => {
+        .then((res) => {
           this.stopLoader();
           notify("Contact details updated successfully", "success");
           this.$store.commit("student/UPDATE_USER_INFO", res.data.data);
-          this.$root.$emit('update_tab', 'sponsor_information')
+          this.$root.$emit("update_tab", "education_history");
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
           this.stopLoader();
           handleError(err);
         });
     },
     goBack() {
-      this.$root.$emit('update_tab', 'personal_details')
+      this.$root.$emit("update_tab", "personal_details");
     },
     stopLoader() {
       this.loading = false;
@@ -464,9 +460,15 @@ export default {
         postal_country_id: "",
         email: "",
         fax: "",
-        telephone: ""
+        telephone: "",
       };
-    }
-  }
+    },
+  },
 };
 </script>
+<style>
+@import url("https://fonts.googleapis.com/css2?family=Inter&display=swap");
+* {
+  font-family: "Inter", sans-serif;
+}
+</style>

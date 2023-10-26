@@ -44,7 +44,7 @@
                         >
                       </select>
                     </div>
-                    <div class="mb-3" v-if="!is_base">
+                    <!-- <div class="mb-3" v-if="!is_base">
                       <label class="custom-text" for=""
                         >Matriculation Result Status
                         <span class="text-danger">*</span></label
@@ -68,7 +68,7 @@
                         <option value="No Matric">No Matric</option>
                         <option value="Failed Matric">Failed Matric</option>
                       </select>
-                    </div>
+                    </div> -->
                     <div class="mb-3" v-if="!is_base && !has_failed">
                       <label class="custom-text" for=""
                         >Have you studied beyond Matric?
@@ -202,9 +202,9 @@ export default {
         this.form.school_name = newVal.education
           ? newVal.education.school_name
           : "";
-        this.form.matriculation_status = newVal.education
-          ? newVal.education.matriculation_status
-          : "";
+        // this.form.matriculation_status = newVal.education
+        //   ? newVal.education.matriculation_status
+        //   : "";
         this.form.matriculation_year = newVal.education
           ? newVal.education.matriculation_year
           : "";
@@ -234,17 +234,17 @@ export default {
       immediate: true,
       deep: true
     },
-    "form.matriculation_status": {
-      handler(newVal, oldVal) {
-        if (newVal === "Failed Matric") {
-          this.has_failed = true;
-        } else {
-          this.has_failed = false;
-        }
-      },
-      immediate: true,
-      deep: true
-    },
+    // "form.matriculation_status": {
+    //   handler(newVal, oldVal) {
+    //     if (newVal === "Failed Matric") {
+    //       this.has_failed = true;
+    //     } else {
+    //       this.has_failed = false;
+    //     }
+    //   },
+    //   immediate: true,
+    //   deep: true
+    // },
     "form.has_studied_beyond_matric": {
       handler(newVal, oldVal) {
         if (newVal === "No") {
@@ -276,7 +276,7 @@ export default {
         });
     },
     goBack() {
-      this.$root.$emit('update_tab', 'sponsor_information')
+      this.$root.$emit('update_tab', 'contact_details')
     },
     getYears() {
       var currentYear = new Date().getFullYear();
@@ -306,7 +306,7 @@ export default {
       return {
         school_name: "",
         matriculation_year: "",
-        matriculation_status: "",
+        // matriculation_status: "",
         has_studied_beyond_matric: "Yes",
         institution_object: []
       };
