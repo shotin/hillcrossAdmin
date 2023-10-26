@@ -40,8 +40,9 @@
                           :value="year.toString()"
                           v-for="(year, index) in years"
                           :key="index"
-                          >{{ year }}</option
                         >
+                          {{ year }}
+                        </option>
                       </select>
                     </div>
                     <!-- <div class="mb-3" v-if="!is_base">
@@ -88,10 +89,8 @@
                 </div>
               </div>
               <div class="row">
-                <p><br></p>
-                <span
-                  v-if="!studied_beyond_matric && !is_base && !has_failed"
-                >
+                <p><br /></p>
+                <span v-if="!studied_beyond_matric && !is_base && !has_failed">
                   <div class="col-md-12 col-sm-12">
                     <p>Post Matric Education Record</p>
                     <div class="form-group">
@@ -102,7 +101,9 @@
                       >
                         <div class="col-md-5 col-sm-12">
                           <div class="form-group">
-                            <label class="custom-text">Institution Attended</label>
+                            <label class="custom-text"
+                              >Institution Attended</label
+                            >
                             <input
                               type="text"
                               required
@@ -122,7 +123,7 @@
                             />
                           </div>
                         </div>
-                        <div class="col-md-3 mt-4" >
+                        <div class="col-md-3 mt-4">
                           <button
                             type="button"
                             class="btn btn-link text-success text-sm mb-0 px-3"
@@ -153,9 +154,9 @@
                 must be filled before advancing to the next page!
               </p>
               <div class="text-left side-by-side-button w-200">
-                <button type="button" @click="goBack()" class="btn btn-primary"
-                  >Back</button
-                >
+                <button type="button" @click="goBack()" class="btn btn-primary">
+                  Back
+                </button>
                 <Button
                   :button_class="'btn btn-outline-success'"
                   :disabled="disabled"
@@ -176,10 +177,8 @@
 import { mapGetters } from "vuex";
 import { notify, handleError } from "@/assets/js/utility";
 export default {
-  mounted() {
-  },
-  components: {
-  },
+  mounted() {},
+  components: {},
   data() {
     return {
       form: this.getForm(),
@@ -188,13 +187,13 @@ export default {
       years: this.getYears(),
       is_base: false,
       has_failed: false,
-      studied_beyond_matric: false
+      studied_beyond_matric: false,
     };
   },
   computed: {
     ...mapGetters({
-      user: "student/pageData"
-    })
+      user: "student/pageData",
+    }),
   },
   watch: {
     user: {
@@ -211,28 +210,32 @@ export default {
         this.form.has_studied_beyond_matric = newVal.education
           ? newVal.education.has_studied_beyond_matric
           : "";
-        if (newVal.education && newVal.education.institution_object.length) {
-          _.map(newVal.education.institution_object, value => {
+        if (
+          newVal.education &&
+          newVal.education.institution_object &&
+          newVal.education.institution_object.length
+        ) {
+          _.map(newVal.education.institution_object, (value) => {
             this.form.institution_object.push({
               institution: value.institution,
-              qualification: value.qualification
+              qualification: value.qualification,
             });
           });
         }
       },
       immediate: true,
-      deep: true
+      deep: true,
     },
     "form.matriculation_year": {
       handler(newVal, oldVal) {
-        if (newVal === moment().format('Y')) {
+        if (newVal === moment().format("Y")) {
           this.is_base = true;
         } else {
           this.is_base = false;
         }
       },
       immediate: true,
-      deep: true
+      deep: true,
     },
     // "form.matriculation_status": {
     //   handler(newVal, oldVal) {
@@ -254,8 +257,8 @@ export default {
         }
       },
       immediate: true,
-      deep: true
-    }
+      deep: true,
+    },
   },
   methods: {
     async processPersonalInformation() {
@@ -263,20 +266,20 @@ export default {
       this.disabled = true;
       await this.$axios
         .post(`/admin/students/${this.user.id}/education-histories`, this.form)
-        .then(res => {
+        .then((res) => {
           this.stopLoader();
           notify("Education history updated successfully", "success");
           this.$store.commit("student/UPDATE_USER_INFO", res.data.data);
-          this.$root.$emit('update_tab', 'qualification_information')
+          this.$root.$emit("update_tab", "qualification_information");
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
           this.stopLoader();
           handleError(err);
         });
     },
     goBack() {
-      this.$root.$emit('update_tab', 'contact_details')
+      this.$root.$emit("update_tab", "contact_details");
     },
     getYears() {
       var currentYear = new Date().getFullYear();
@@ -295,7 +298,7 @@ export default {
       if (this.form.institution_object.length < 3) {
         this.form.institution_object.push({
           institution: "",
-          qualification: ""
+          qualification: "",
         });
       }
     },
@@ -308,9 +311,9 @@ export default {
         matriculation_year: "",
         // matriculation_status: "",
         has_studied_beyond_matric: "Yes",
-        institution_object: []
+        institution_object: [],
       };
-    }
-  }
+    },
+  },
 };
 </script>
