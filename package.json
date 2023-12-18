@@ -33,6 +33,6 @@
     "vuejs-datepicker": "^1.6.2"
   },
   "devDependencies": {
-    "@nuxtjs/dotenv": "^1.4.1"
+    "@nuxtjs/dotenv": "^1.4.2"
   }
 }
